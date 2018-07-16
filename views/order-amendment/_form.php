@@ -71,7 +71,7 @@ use yii\widgets\ActiveForm;
 
         </div>
 
-        <?= $form->field($model, 'total')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'total')->textInput(['maxlength' => true, 'value' => 0,'type' => 'number', 'step' => '0.01','readonly' => true,]) ?>
 
 
         <div class="form-group">
@@ -93,19 +93,42 @@ $this->registerJs("
 ", \yii\web\View::POS_END);
 
 $this->registerJs("
-   function rateHandler(element){
+
+    function qtyamountHandler(element)
+    {
+        let ID = $(element).attr('id');
+        let idArr = ID.split('-');
+        let elementIndex = idArr[2];
+        
+        if($('#order-amendment-quantity-' + elementIndex) != '')
+        {
+            amountHandler(element);            
+        }
+    }
+
+    function amountHandler(element)
+    {
         let ID = $(element).attr('id');
         let idArr = ID.split('-');
         let elementIndex = idArr[3];
         console.log(elementIndex);
+
         let qty = $('#order-amendment-quantity-' + elementIndex).val();
         let rate_per_unit = $('#order-amendment-rate_per_unit-' + elementIndex).val();
-        let total = (parseFloat(rate_per_unit) * parseFloat(qty));
-        $('#order-amendment-total_amount-' + elementIndex).val(total);
-        
-        
-        
-   
-   }
+        // let total = (parseFloat(rate_per_unit) * parseFloat(qty));
+        // $('#order-amendment-total_amount-' + elementIndex).val(total);
+        let total = $('#orderamendment-total').attr('value');
+        $('#order-amendment-total_amount-' + elementIndex).val((parseFloat(qty) * parseFloat(rate_per_unit)));
+        totalHandler();                                
+    }
+
+    function totalHandler()
+    {
+        var grandTotal = 0;
+        $('.amount').each(function(){
+        grandTotal = (parseFloat(grandTotal) + parseFloat($(this).val()));
+        $('#orderamendment-total').val(grandTotal);
+        });
+    }
 ", \yii\web\View::POS_END);
 ?>

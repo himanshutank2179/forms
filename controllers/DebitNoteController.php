@@ -167,4 +167,12 @@ class DebitNoteController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return Vendors::find()->where(['vendor_id' => $id])->one();
     }
+
+    public function actionPrint($id){
+        $model = DebitNote::findOne($id);
+        $content = $this->renderPartial('_print', ['debitnote' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

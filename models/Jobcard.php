@@ -91,4 +91,8 @@ class Jobcard extends \yii\db\ActiveRecord
     {
         return $this->hasMany(JobcardRawMaterials::className(), ['jobcard_id' => 'jobcard_id']);
     }
+    public function getJobcardOperationParameter()
+    {
+        return $this->hasMany(JobcardOperationParameter::className(), ['jobcard_id' => 'jobcard_id']);
+    }
 }

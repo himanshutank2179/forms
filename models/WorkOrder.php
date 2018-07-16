@@ -51,4 +51,9 @@ class WorkOrder extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+
+    public function getClient()
+    {
+        return $this->hasOne(Clients::className(), ['client_id' => 'customer_id']);
+    }
 }

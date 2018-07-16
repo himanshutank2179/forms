@@ -28,10 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'non_confirming_product_id',
+            /*'non_confirming_product_id',*/
             'date',
             'GRN_NO',
-            'product_id',
+            [
+                'attribute' => 'product_id',
+
+                'value' => function ($data) {
+                    return ucfirst($data->product->product_name);
+                },
+
+            ],
             'resion:ntext',
             'qty',
             'balance',

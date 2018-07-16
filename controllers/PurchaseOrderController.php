@@ -202,4 +202,12 @@ class PurchaseOrderController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return Vendors::findOne($id);
     }
+
+    public function actionPrint($id){
+        $model = PurchaseOrder::findOne($id);
+        $content = $this->renderPartial('_print_purchase', ['purchaseorder' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

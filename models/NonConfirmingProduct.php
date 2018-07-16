@@ -55,18 +55,23 @@ class NonConfirmingProduct extends \yii\db\ActiveRecord
         return [
             'non_confirming_product_id' => 'Non Confirming Product ID',
             'date' => 'Date',
-            'GRN_NO' => 'Voucher No. (GRN, Job card Issue Note, Debate Note',
-            'product_id' => 'Product ID',
-            'resion' => 'Resion',
-            'qty' => 'Qty',
+            'GRN_NO' => 'Grn  No',
+            'product_id' => 'Product',
+            'resion' => 'Reason',
+            'qty' => 'Quantity',
             'balance' => 'Balance',
-            'return_to_vendor_qty' => 'Return To Vendor Qty',
-            'rework_qty' => 'Rework Qty',
-            'scrap_qty' => 'Scrap Qty',
-            'sales_on_discount_qty' => 'Sales On Discount Qty',
+            'return_to_vendor_qty' => 'Return To Vendor Quantity',
+            'rework_qty' => 'Rework Quantity',
+            'scrap_qty' => 'Scrap Quantity',
+            'sales_on_discount_qty' => 'Sales On Discount Quantity',
             'sign_of_prod' => 'Sign Of Prod',
             'is_deleted' => 'Is Deleted',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductMaster::className(), ['product_master_id' => 'product_id']);
     }
 }

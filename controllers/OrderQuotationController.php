@@ -202,4 +202,12 @@ class OrderQuotationController extends Controller
         }
 
     }
+
+    public function actionPrintOrderquotation($id){
+        $model = OrderQuotation::findOne($id);
+        $content = $this->renderPartial('_print_quotation', ['quotation' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

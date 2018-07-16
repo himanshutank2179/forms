@@ -66,4 +66,8 @@ class BillOfMaterial extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DocumentsAndDistributionMaster::className(), ['documents_and_distribution_master_id' => 'document_id']);
     }
+    public function getUnit()
+    {
+        return $this->hasOne(UnitsOfMeasures::className(), ['units_of_measures_id' => 'unit_id']);
+    }
 }

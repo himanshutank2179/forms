@@ -71,6 +71,8 @@ class BillOfMaterialController extends Controller
         if (Yii::$app->request->post()) {
             $request = Yii::$app->request->post();
 
+
+
             $size = sizeof($request['BillOfMaterial']['raw_materia_id']);
             $prodCode = $request['BillOfMaterial']['product_code'];
             for ($i = 0; $i < $size; $i++) {
@@ -156,8 +158,19 @@ class BillOfMaterialController extends Controller
             'i' => $i,
         ]);
     }
-    public function actionGetParameterDetails($id){
+
+    public function actionGetParameterDetails($id)
+    {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return Parameters::find()->where(['parameter_id'=>$id])->one();
+        return Parameters::find()->where(['parameter_id' => $id])->one();
+    }
+
+    public function actionPrint($prod_code)
+    {
+        $model = BillOfMaterial::find()->where(['product_code' => $prod_code])->all();
+        $content = $this->renderPartial('_print_bill', ['billofmaterial' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
     }
 }

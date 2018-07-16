@@ -32,10 +32,9 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'product_id')->dropDownList(AppHelper::getProducts(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
 
-
         </div>
         <div class="col-md-6">
-            <?php $form->field($model, 'incomming_qc_no')->textInput() ?>
+            <?= $form->field($model, 'incomming_qc_no')->dropDownList(AppHelper::getIncommingQCNo(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
             <?= $form->field($model, 'date_of_dispatch')->textInput(['class'=>'form-control datepicker']) ?>
 

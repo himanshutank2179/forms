@@ -38,11 +38,6 @@ class CompanyAuditPlan extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCompany()
-    {
-        return $this->hasOne(Company::className(), ['company_id' => 'company_id']);
-    }
-
     /**
      * {@inheritdoc}
      */

@@ -14,6 +14,15 @@ use yii\filters\VerbFilter;
  */
 class NonConfirmingProductController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'editable' => [
+                'class' => 'mcms\xeditable\XEditableAction',
+                'modelclass' => NonConfirmingProduct::className(),
+            ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -66,8 +75,12 @@ class NonConfirmingProductController extends Controller
     {
         $model = new NonConfirmingProduct();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->non_confirming_product_id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->save();
+
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -87,7 +100,7 @@ class NonConfirmingProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->non_confirming_product_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

@@ -25,9 +25,7 @@ use yii\helpers\Url;
                 'prompt' => 'Please Select',
                 'id' => 'order-amendment-product_id-' . $i,
                 /*'onchange'=>'parameterHandler(this)',*/
-
-
-                /*'required' => true*/
+                'required' => true,
 
             ]);
             ?>
@@ -55,8 +53,9 @@ use yii\helpers\Url;
             <?= Html::activeTextInput($model, 'quantity[]', [
                 'maxlength' => true,
                 'class' => 'form-control',
-                'id' => '00000' . $i,
-                /*'required' => true,*/
+                'id' => 'order-amendment-quantity-' . $i,
+                'onblur' => 'qtyamountHandler(this)',
+                'required' => true,
 
 
             ]);
@@ -70,8 +69,8 @@ use yii\helpers\Url;
                 'maxlength' => true,
                 'class' => 'form-control datepicker',
                 'id' => 'order-amendment-rate_per_unit-' . $i,
-                'onblur'=>'rateHandler(this)'
-                /*'required' => true,*/
+                'onblur' => 'amountHandler(this)',
+                'required' => true,
 
 
             ]);
@@ -83,13 +82,23 @@ use yii\helpers\Url;
 
             <?= Html::activeTextInput($model, 'total_amount[]', [
                 'maxlength' => true,
-                'class' => 'form-control',
+                'class' => 'form-control amount',
                 'id' => 'order-amendment-total_amount-' . $i,
+                'value' => 0,
+                'type' => 'number',
+                'step' => '0.01',
+                'readonly' => true,
                 /*'required' => true,*/
 
 
             ]);
             ?>
+        </div>
+        <div class="col-md-1">
+            <br>
+            <button type="button" class=" btn btn-danger col-md-12" onclick="ajaxform.removeBlankFloatForm('<?php echo $i ?>')">
+        Remove
+    </button>
         </div>
 
 
@@ -99,9 +108,9 @@ use yii\helpers\Url;
 
 
 
-    <button type="button" class=" btn btn-danger col-md-12" onclick="ajaxform.removeBlankFloatForm('<?php echo $i ?>')">
+    <!-- <button type="button" class=" btn btn-danger col-md-12" onclick="ajaxform.removeBlankFloatForm('<?php echo $i ?>')">
         Remove
     </button>
-    <br><br>
+    <br><br> -->
 
 

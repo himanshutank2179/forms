@@ -80,4 +80,18 @@ class CustomerCompaintReport extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+    public function getProduct()
+    {
+        return $this->hasOne(ProductMaster::className(), ['product_master_id' => 'product_id']);
+    }
+
+    public function getClient()
+    {
+        return $this->hasOne(Clients::className(), ['client_id' => 'customer_id']);
+    }
+
+    public function getIncommingqc()
+    {
+        return $this->hasOne(IncommingQc::className(), ['incomming_qc_id' => 'incomming_qc_no']);
+    }
 }

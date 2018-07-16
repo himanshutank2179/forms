@@ -75,6 +75,7 @@ class WorkOrderController extends Controller
             for ($i = 0; $i < $size; $i++) {
                 $workOrderProduct = new WorkOrderProducts();
                 /*echo '<pre>';print_r($request['BillOfMaterial']['product_code']); exit();*/
+                $workOrderProduct->work_order_id = $model->work_order_id;
                 $workOrderProduct->product_id = $request['WorkOrderProducts']['product_id'][$i];
                 $workOrderProduct->drawing_no = $request['WorkOrderProducts']['drawing_no'][$i];
                 $workOrderProduct->required_qty = $request['WorkOrderProducts']['required_qty'][$i];
@@ -154,5 +155,13 @@ class WorkOrderController extends Controller
             'model' => $model,
             'i' => rand() . $i,
         ]);
+    }
+
+    public function actionPrintWorkOrder($id){
+        $model = WorkOrder::findOne($id);
+        $content = $this->renderPartial('_print_workorder', ['workorder' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
     }
 }

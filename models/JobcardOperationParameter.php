@@ -20,8 +20,6 @@ use Yii;
  */
 class JobcardOperationParameter extends \yii\db\ActiveRecord
 {
-    public $tolerance;
-
     /**
      * {@inheritdoc}
      */
@@ -38,8 +36,8 @@ class JobcardOperationParameter extends \yii\db\ActiveRecord
         return [
             [['jobcard_operation_detail_id', 'parameter_id', 'unit', 'instrument_id', 'first_qc_result', 'second_qc_result', 'third_qc_result', 'averages'], 'required'],
             [['jobcard_operation_detail_id', 'parameter_id', 'product_id', 'instrument_id'], 'integer'],
-            [['tolerance'], 'safe'],
-            [['unit', 'first_qc_result', 'second_qc_result', 'third_qc_result', 'averages'], 'string', 'max' => 255],
+            // [['inprocess_qc_paramter'], 'safe'],
+            [['unit', 'first_qc_result', 'second_qc_result', 'third_qc_result', 'averages','inprocess_qc_paramter'], 'string', 'max' => 255],
         ];
     }
 
@@ -59,6 +57,7 @@ class JobcardOperationParameter extends \yii\db\ActiveRecord
             'second_qc_result' => 'Second Qc Result',
             'third_qc_result' => 'Third Qc Result',
             'averages' => 'Averages',
+            'in_process_qc_paramter' => 'In-process QC Paramter'
         ];
     }
 }

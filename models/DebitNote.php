@@ -76,4 +76,11 @@ class DebitNote extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+
+    public function getDebitNoteDetails()
+    {
+        return $this->hasMany(DebitNoteDetails::className(), ['debit_note_id' => 'debit_note_id']);
+    }
 }
+
+
