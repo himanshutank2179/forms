@@ -560,7 +560,7 @@ $auditPlans = AuditPlanDocuments::find()->where(['company_id' => Yii::$app->sess
                                     <div class="clearfix"></div>
                                     <div class="col-md-6">
                                         <label for="audit-non-confirmities-non-confirming_class-<?= $i ?>"> Non
-                                            Conformity </label>
+                                            Conformity Class</label>
 
                                         <?=
                                         Html::activeDropDownList($auditNonConfirmities, 'non_confirming_class[]', [
@@ -628,7 +628,7 @@ $auditPlans = AuditPlanDocuments::find()->where(['company_id' => Yii::$app->sess
         <div id="print" class="tab-pane fade">
 
             <div class="pbtn">
-                <button class="btn btn-primary btn-lg">Print <span class="glyphicon glyphicon-print"></span> </button>
+                <a class="btn btn-primary btn-lg" href="<?= Url::to(['company-audit-plan/print'], true)  ?>" target="_blank">Print <span class="glyphicon glyphicon-print"></span> </a>
             </div>
 
         </div>

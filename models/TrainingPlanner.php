@@ -38,7 +38,7 @@ class TrainingPlanner extends \yii\db\ActiveRecord
         return [
             [['name_of_training', 'period', 'type_of_training', 'user_id', 'designation', 'actual_trining_date', 'faculty', 'training_feedback'], 'required'],
             [['user_id'], 'integer'],
-            [['is_trained'], 'safe'],
+                [['is_trained'], 'safe'],
             [['training_feedback','actual_trining_date'], 'string'],
             [['name_of_training', 'period', 'type_of_training', 'designation', 'faculty'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'user_id']],

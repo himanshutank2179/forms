@@ -9,6 +9,7 @@ use app\models\Parameters;
 use Yii;
 use app\models\Jobcard;
 use app\models\JobcardSearch;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -72,7 +73,6 @@ class JobcardController extends Controller
 
         $request = Yii::$app->request->post();
 
-      
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -84,7 +84,7 @@ class JobcardController extends Controller
             $model->class = $request['Jobcard']['class'];
             $model->remark = $request['Jobcard']['remark'];
             $model->created_at = date('Y-m-d H:i:s');
-            if($model->save()){
+            if ($model->save()) {
 
 
                 if (isset($request['JobcardOperationDetails']) && !empty($request['JobcardOperationDetails'])) {
@@ -139,11 +139,7 @@ class JobcardController extends Controller
                 }
 
 
-
-
-
             }
-
 
 
             return $this->redirect(['view', 'id' => $model->jobcard_id]);
@@ -226,12 +222,92 @@ class JobcardController extends Controller
         ]);
     }
 
-    public function actionPrintJobcard($id){
+    public function actionPrintJobcard($id)
+    {
         $model = Jobcard::findOne($id);
         $content = $this->renderPartial('_print_jobcard', ['jobcard' => $model]);
         $pdf = Yii::$app->pdf;
         $pdf->content = $content;
         return $pdf->render();
+    }
+
+    public function actionDuplicate($id)
+    {
+
+        $oldJobcard = Jobcard::findOne($id);
+
+        $model = new Jobcard();
+        $model->date = $oldJobcard->date;
+        $model->product_description = $oldJobcard->product_description;
+        $model->finish_product_id = $oldJobcard->finish_product_id;
+        $model->size = $oldJobcard->size;
+        /*$model->material = $request['Jobcard']['material'];*/
+        $model->qty = $oldJobcard->qty;
+        $model->class = $oldJobcard->class;
+        $model->remark = $oldJobcard->remark;
+        $model->created_at = date('Y-m-d H:i:s');
+        if ($model->save(false)) {
+            $isJobcardInserted = true;
+
+            if (!empty($oldJobcard->jobcardOperationDetails)) {
+                foreach ($oldJobcard->jobcardOperationDetails as $operation) {
+                    $jod = new JobcardOperationDetails();
+
+                    $jod->jobcard_id = $model->jobcard_id;
+                    $jod->operation_id = $operation->operation_id;
+                    $jod->product_id = $operation->product_id;
+                    $jod->qty = $operation->qty;
+                    $jod->start_from = $operation->start_from;
+                    $jod->end_to = $operation->end_to;
+                    $jod->m_ch_ve = $operation->m_ch_ve;
+                    // $jod->parameter = $request['JobcardOperationDetails']['parameter'][$i];
+                    $jod->ok = $operation->ok;
+                    $jod->rejected = $operation->rejected;
+                    $jod->total = $operation->total;
+                    $jod->in_process_qc_no = $operation->in_process_qc_no;
+                    $jod->final_qc_no = $operation->final_qc_no;
+                    $jod->pressure_test_report_no = $operation->pressure_test_report_no;
+                    $jod->operator = $operation->operator;
+                    $jod->remark = $operation->remark;
+
+                    if ($jod->save(false)) {
+                        $isJobcardOperationInserted = true;
+                        if (!empty($oldJobcard->jobcardOperationParameter)) {
+                            /* Storing Job Operation Parameter */
+                            foreach ($oldJobcard->jobcardOperationParameter as $parameter) {
+                                $isJobcardParameterInserted = true;
+                                $jodOperationParam = new JobcardOperationParameter();
+                                $jodOperationParam->jobcard_operation_detail_id = $jod->jobcard_operation_detail_id;
+                                $jodOperationParam->parameter_id = $parameter->parameter_id;
+                                $jodOperationParam->product_id = $parameter->product_id;
+                                $jodOperationParam->unit = $parameter->unit;
+                                $jodOperationParam->instrument_id = $parameter->instrument_id;
+                                $jodOperationParam->first_qc_result = $parameter->first_qc_result;
+                                $jodOperationParam->second_qc_result = $parameter->second_qc_result;
+                                $jodOperationParam->third_qc_result = $parameter->third_qc_result;
+                                $jodOperationParam->averages = $parameter->averages;
+
+                                if (!$jodOperationParam->save(false)) {
+                                    p($jodOperationParam->errors);
+
+                                }
+                            }
+                        }
+
+
+                    } else {
+                        p($jod->errors);
+                    }
+                }
+            }
+
+
+        } else{
+            p($model->errors);
+        }
+
+        $this->redirect('index');
+
     }
 
     public function actionGetProductParameters($product_id)

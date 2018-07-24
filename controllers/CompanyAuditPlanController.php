@@ -78,7 +78,6 @@ class CompanyAuditPlanController extends Controller
         }
 
 
-
         $auditElements = AuditElements::find()->where(['company_id' => Yii::$app->session->get('company')->company_id])->one();
         $nonConf = AuditNonConfirmities::find()->where(['company_id' => Yii::$app->session->get('company')->company_id])->all();
         $auditPlanDocs = AuditPlanDocuments::find()->where(['company_id' => Yii::$app->session->get('company')->company_id])->one();
@@ -157,7 +156,6 @@ class CompanyAuditPlanController extends Controller
 
 
         $request = Yii::$app->request->post();
-
 
 
         if (isset($request['AuditPlanDocuments']) && !empty($request['AuditPlanDocuments'])) {
@@ -295,5 +293,12 @@ class CompanyAuditPlanController extends Controller
         ]);
     }
 
-
+    public function actionPrint()
+    {
+        $model = CompanyAuditPlan::find()->where(['company_id' => Yii::$app->session->get('company')->company_id])->one();
+        $content = $this->renderPartial('_print', ['auditplan' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

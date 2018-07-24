@@ -7,6 +7,7 @@ use app\models\Cities;
 use app\models\Clients;
 use app\models\Company;
 use app\models\Countries;
+use app\models\Departments;
 use app\models\DocumentsAndDistributionMaster;
 use app\models\IncommingQc;
 use app\models\InstrumentMaster;
@@ -401,6 +402,33 @@ class AppHelper
             'Strengths Of The Company',
         ];
 
+    }
+
+    static public function getMonths()
+    {
+
+        return [
+            'January' => 'January',
+            'February' => 'February',
+            'March' => 'March',
+            'April' => 'April',
+            'May' => 'May',
+            'June' => 'June',
+            'July' => 'July',
+            'August' => 'August',
+            'September' => 'September',
+            'October' => 'October',
+            'November' => 'November',
+            'December' => 'December',
+        ];
+
+    }
+
+    static public function getDepartments()
+    {
+        $data = Departments::find()->all();
+        $list = ArrayHelper::map($data, 'department_id', 'name');
+        return $list;
     }
 
 

@@ -41,15 +41,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Html::activeDropDownList($searchModel, 'user_id', AppHelper::getEmployee(), ['class' => 'form-control select','prompt' => 'Filter By Users']),
 
             ],
-            [
+            /*[
                 'attribute' => 'is_trained',
 
                 'value' => function ($data) {
-                    return ($data->is_trained == 0 ) ? 'NO' : 'YES';
+                    return (getExactField($data->is_trained) == 0 ) ? 'NO' : 'YES';
                 },
 
                 'filter' => Html::activeDropDownList($searchModel, 'is_trained', [1 => 'YES', 0 => 'NO'], ['class' => 'form-control select','prompt' => 'Filter']),
-            ],
+            ],*/
 
             //'designation',
             //'actual_trining_date',

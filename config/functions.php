@@ -3,7 +3,7 @@
 /**
  * @param null $data
  */
-function p($data = NULL)
+function debugPrint($data = NULL)
 {
     echo '<pre>';
     print_r($data);
@@ -38,11 +38,15 @@ function getExactField($field)
 {
     return !empty($field) || $field != '' ? $field : '';
 }
+function getBoolean($field)
+{
+    return ($field == 0 ) ? 'NO' : 'YES';
+}
 
 function getIndianCurrency($number)
 {
-    //EXAMPLE
-    //echo ucfirst(AppHelper::getIndianCurrency(6000));
+//EXAMPLE
+//echo ucfirst(AppHelper::getIndianCurrency(6000));
 
     $decimal = round($number - ($no = floor($number)), 2) * 100;
     $hundred = null;

@@ -49,10 +49,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {print}',
+                'template' => '{view} {update} {delete} {print} {duplicate}',
                 'buttons' => [
                     'print' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print-jobcard', 'id' => $model->jobcard_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print-jobcard', 'id' => $model->jobcard_id]), ['target' => '_blank', 'data-pjax' => "0", 'title' => 'Print']);
+                    },
+                    'duplicate' => function ($url, $model) {
+                        return Html::a('<i class="fa fa-fw fa-copy"></i>', \yii\helpers\Url::to(['duplicate', 'id' => $model->jobcard_id]), ['title' => 'Duplicate']);
                     },
                 ],
             ]

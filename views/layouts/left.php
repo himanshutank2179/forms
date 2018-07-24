@@ -158,6 +158,8 @@
 
                     ],
                     ['label' => 'Company Audit', 'icon' => '', 'url' => ['/company-audit-plan/create']],
+                    ['label' => 'Suppier Evaluation', 'icon' => '', 'url' => ['/suppiler-evaluation/index']],
+                    ['label' => 'Corrective & Preventive Action Plan', 'icon' => '', 'url' => ['/corrective-action-plan/index']],
                     [
                         'label' => 'RBAC',
                         'icon' => '  fa-mail-forward (alias)',

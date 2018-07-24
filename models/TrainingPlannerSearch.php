@@ -18,7 +18,7 @@ class TrainingPlannerSearch extends TrainingPlanner
     public function rules()
     {
         return [
-            [['training_planner_id', 'user_id', 'actual_trining_date','is_trained'], 'integer'],
+            [['training_planner_id', 'user_id', 'actual_trining_date'], 'integer'],
             [['name_of_training', 'period', 'type_of_training', 'designation', 'faculty', 'training_feedback'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class TrainingPlannerSearch extends TrainingPlanner
         $query->andFilterWhere([
             'training_planner_id' => $this->training_planner_id,
             'user_id' => $this->user_id,
-            'is_trained' => $this->is_trained,
+
             'actual_trining_date' => $this->actual_trining_date,
         ]);
 

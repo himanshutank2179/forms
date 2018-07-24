@@ -39,6 +39,8 @@ class AppAsset extends AssetBundle
         'js/ajaxform.js',
         'bower_components\bootstrap-sweetalert\dist\sweetalert.js',
         'bower_components\datatables\media\js\jquery.dataTables.js',
+        'bower_components\highcharts\highcharts.js',
+        'bower_components\highcharts\modules\exporting.js',
        /* 'bower_components\AjaxLoader\jquery.ajaxloader.1.5.1.js' *//* EXTRA LOADER  */
     ];
     public $depends = [

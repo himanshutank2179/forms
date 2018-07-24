@@ -414,7 +414,7 @@
             "version": "1.10.19",
             "source": {
                 "type": "git",
-                "url": "https://github.com/DataTables/DataTables.git",
+                "url": "git@github.com:DataTables/DataTables.git",
                 "reference": "156faa83386460c578e00c460eca9766e38a0c5f"
             },
             "dist": {
