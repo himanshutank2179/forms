@@ -104,6 +104,7 @@
                             ['label' => 'Raw Material Receipt', 'icon' => '', 'url' => ['/purchase-receipt']],
                             ['label' => 'Incomming QC', 'icon' => '', 'url' => ['/incomming-qc']],
                             ['label' => 'Raw Material Inventory', 'icon' => '', 'url' => ['/purchase-inventory']],
+                            ['label' => 'Product Inventory', 'icon' => '', 'url' => ['/product-inventory']],
                             ['label' => 'Non Confirming Product', 'icon' => '', 'url' => ['/non-confirming-product/index']],
                             ['label' => 'Debit Note', 'icon' => '', 'url' => ['/debit-note/index']],
                             /*['label' => 'Purchase BOM', 'icon' => '  fa-mail-forward (alias)', 'url' => ['/customer-complaint-record']],*/
