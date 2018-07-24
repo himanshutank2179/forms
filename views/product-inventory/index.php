@@ -38,9 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'initial_qty',
             'current_qty',
-            'unit_price',
+//            'unit_price',
             //'note:ntext',
-            //'min_qty',
+            'min_qty',
             //'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
@@ -48,4 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     <?php Pjax::end(); ?>
 </div>
+
+
+
 

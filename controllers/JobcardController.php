@@ -6,6 +6,7 @@ use app\models\JobcardOperationDetails;
 use app\models\JobcardOperationParameter;
 use app\models\JobcardRawMaterials;
 use app\models\Parameters;
+use app\models\ProductInventory;
 use Yii;
 use app\models\Jobcard;
 use app\models\JobcardSearch;
@@ -85,6 +86,30 @@ class JobcardController extends Controller
             $model->remark = $request['Jobcard']['remark'];
             $model->created_at = date('Y-m-d H:i:s');
             if ($model->save()) {
+
+                // Checking Product available in prod inventory or not
+                $isProdAvail = ProductInventory::find()->where(['product_id' => $model->finish_product_id])->all();
+                if($isProdAvail){
+                    $isProdAvail->current_qty = $isProdAvail->current_qty + $model->qty;
+                    $isProdAvail->save(false);
+
+                } else {
+                    // Maintaining Product Inventory
+                    $product_inventory = new ProductInventory();
+                    $product_inventory->created_at = date('Y-m-d H:i:s');
+                    $product_inventory->product_id = $model->finish_product_id;
+                    $product_inventory->initial_qty = $model->qty;
+                    $product_inventory->current_qty = $model->qty;
+                    $product_inventory->min_qty = 0;
+                    $product_inventory->note = null;
+                    $product_inventory->save(false);
+
+//                    $product_inventory->unit_price = $model->finishProduct;
+
+
+                }
+
+
 
 
                 if (isset($request['JobcardOperationDetails']) && !empty($request['JobcardOperationDetails'])) {

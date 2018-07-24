@@ -47,13 +47,18 @@ class ProductInventory extends \yii\db\ActiveRecord
     {
         return [
             'product_inventory_id' => 'Product Inventory ID',
-            'product_id' => 'Product ID',
-            'initial_qty' => 'Initial Qty',
-            'current_qty' => 'Current Qty',
+            'product_id' => 'Product',
+            'initial_qty' => 'Initial Quantity',
+            'current_qty' => 'Current Quantity',
             'unit_price' => 'Unit Price',
             'note' => 'Note',
-            'min_qty' => 'Min Qty',
+            'min_qty' => 'Minimum Quantity',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductMaster::className(), ['product_master_id' => 'product_id']);
     }
 }

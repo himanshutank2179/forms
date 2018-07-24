@@ -211,8 +211,6 @@ class UploadsController extends \yii\web\Controller
 
                     $path = \yii\helpers\BaseUrl::home() . 'uploads/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
 
-
-
                     Image::thumbnail('../web/uploads/temp/' . $fileName, 250, 300)->resize(new Box(90,90))->save('../web/uploads/' . $fileName, ['quality' => 500]);
 
                     unlink('../web/uploads/temp/' . $fileName);
