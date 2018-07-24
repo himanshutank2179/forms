@@ -168,4 +168,12 @@ class UsersController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    public function actionPrint($id)
+    {
+        $model = Users::findOne($id);
+        $content = $this->renderPartial('_print_user', ['emp' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }
