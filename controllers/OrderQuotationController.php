@@ -71,11 +71,11 @@ class OrderQuotationController extends Controller
     {
         $model = new OrderQuotation();
 
-
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->bodyParams;
-
-
+            // echo "<pre>";
+            // print_r($data);
+            // exit();
 
             $model->created_at = date('Y-m-d H:i:s');
             $model->type = $type;
@@ -115,16 +115,18 @@ class OrderQuotationController extends Controller
 
 
             // If isQuoteIncluded is 1 then creating Quote
-            $newQoute = new OrderQuotation();
-            $request = Yii::$app->request->bodyParams;
-            $newQoute->attributes = $data['OrderQuotation'];
-            $newQoute->created_at = date('Y-m-d H:i:s');
-            $newQoute->type = $type;
-            $newQoute->inquiry_number = $model->inquiry_number;
-            $newQoute->type = 'quotations';
-            $newQoute->our_quote_ref_num = AppHelper::getRandomOrderNo();
-
-            $isModelSaved = $newQoute->save(false);
+            if(isset($request['isQuoteIncluded']))
+            {
+                $newQoute = new OrderQuotation();
+                $request = Yii::$app->request->bodyParams;
+                $newQoute->attributes = $data['OrderQuotation'];
+                $newQoute->created_at = date('Y-m-d H:i:s');
+                $newQoute->type = $type;
+                $newQoute->inquiry_number = $model->inquiry_number;
+                $newQoute->type = 'quotations';
+                $newQoute->our_quote_ref_num = AppHelper::getRandomOrderNo();
+                $isModelSaved = $newQoute->save(false);
+            }
             if ($isModelSaved) {
                 if (isset($request['QuotationProducts']['product_id'])) {
                     $size = sizeof($request['QuotationProducts']['product_id']);

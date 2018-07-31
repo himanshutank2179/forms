@@ -268,13 +268,15 @@ $this->registerJs("
                 $('#orderquotation-delivery_period').val(res[0].delivery_period);
                 $('#orderquotation-mod_of_dispatch').val(res[0].mod_of_dispatch);
                 $('#orderquotation-payment_terms').val(res[0].payment_terms);
-                $('#orderquotation-inasurance').val(res[0].inasurance);
-                setTimeout(function () {  $('#orderquotation-client_id').val(res[0].city_id); },500);
-                
-                
-                 $('#orderquotation-inspection_by').val(res[0].state_id).trigger('change');
-                 $('#orderquotation-state_id').val(res[0].state_id).trigger('change');
-                 $('#orderquotation-city_id').val(res[0].city_id).trigger('change');
+                $('#orderquotation-client_id').val(res[0].client_id);
+                $('#orderquotation-client_mobile').val(res[0].client_mobile);
+                $('#orderquotation-client_address').val(res[0].client_address);
+                $('#orderquotation-inquiry_remark').val(res[0].inquiry_remark);
+                $('#orderquotation-state_id').val(res[0].state_id).trigger('change');
+                setTimeout(function () {  $('#orderquotation-city_id').val(res[0].city_id); },1000);
+                $('#orderquotation-inspection_by').val(res[0].inspection_by).trigger('change');
+                $('#orderquotation-approved_by').val(res[0].approved_by).trigger('change');
+                 
                  
                  for (let [index, product] of Object.entries(res[1])) {
                         
