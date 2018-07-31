@@ -1,8 +1,10 @@
 <?php
 
+use app\helpers\AppHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SuppilerEvaluationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -27,7 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'sppiler_evaluation_id',
-            'vendor_id',
+            [
+                'attribute' => 'vendor_id',
+                'value' => function ($model) {
+                    return ucfirst($model->vendor->name);
+                },
+                'filter' => Html::activeDropDownList($searchModel, 'vendor_id', AppHelper::getVendors(), ['class' => 'form-control select', 'prompt' => 'Filter By Category'])
+            ],
+
             'month',
             'total_po',
             'purchase_qty',
