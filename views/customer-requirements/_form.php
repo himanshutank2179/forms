@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->errorSummary($model) ?>
+
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'date')->textInput(['class' => 'datepicker form-control']) ?>
@@ -26,7 +28,8 @@ use yii\widgets\ActiveForm;
         <div class="col-md-6">
             <?= $form->field($model, 'customer_po_number')->textInput(['maxlength' => true]) ?>
             
-            <?= $form->field($model, 'order_review_by')->textInput() ?>
+
+            <?= $form->field($model, 'order_review_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
             <?= $form->field($model, 'date_of_dispatch')->textInput(['class' => 'datepicker form-control']) ?>
 

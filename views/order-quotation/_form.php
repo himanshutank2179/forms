@@ -8,77 +8,303 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\OrderQuotation */
 /* @var $form yii\widgets\ActiveForm */
+$type = Yii::$app->getRequest()->getQueryParam('type');
+
 ?>
+    <style>
+        .quotations {
+            display: none;
+        }
+    </style>
 
-<div class="order-quotation-form">
-    <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
+    <div class="order-quotation-form">
+        <?php $form = ActiveForm::begin(); ?>
 
-            <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
+        <?php if ($type == 'quotations'): ?>
+            <div class="row">
+                <div class="col-md-7 col-lg-offset-3">
+                    <?= $form->field($model, 'inquiry_number')->dropDownList(AppHelper::getInquiryNumbers(), ['class' => 'form-control select4 inquiry', 'prompt' => 'Please Select', 'onchange' => 'quotationHandler(this)']) ?>
+                </div>
+            </div>
+        <?php endif; ?>
 
-            <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
+        <div class="row">
+            <div class="col-md-7 col-lg-offset-3">
+                <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
 
-            <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'inspection_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-
-            <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-
-            <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
+                <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select', 'onchange' => '$.post( "' . Yii::$app->urlManager->createUrl('order-quotation/city-list?id=') . '"+$(this).val(), function( data ) {
                     $( "#orderquotation-city_id" ).html( data );
                 });
             ']) ?>
 
-            <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+                <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
+                <?= $form->field($model, 'client_id')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'client_mobile')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'client_address')->textarea() ?>
+
+
+                <div class="quotations animate">
+                    <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
+
+                    <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
+
+                    <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
+                </div>
+
+
+                <label for="">Want to Make Quote also?</label> <br>
+                <?= Html::checkbox('isQuoteIncluded', '', ['id' => 'isQuoteIncluded']); ?> <label for="">YES</label>
+
+
+                <?php if ($type != 'requirements'): ?>
+                    <?= $form->field($model, 'inspection_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+
+                    <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+                <?php endif; ?>
+
+                <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'inquiry_remark')->textarea() ?>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div id="ajax-document"></div>
+
+            <?php if (!$model->isNewRecord): ?>
+                <?php $quote_product = \app\models\QuotationProducts::find()->where(['order_quotation_id' => $model->order_quotation_id])->all(); ?>
+                <?php $newProduct = new \app\models\QuotationProducts(); ?>
+                <?php //debugPrint($quote_product);  ?>
+                <?php foreach ($quote_product as $key => $product): ?>
+                    <?php $i = $key . rand(); ?>
+
+                    <div class="animated bounceInRight create-po document-form" id="<?= $i ?>">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-product_id-<?= $i ?>"> Product </label>
+                                <?= Html::activeDropDownList($newProduct, 'product_id[]', AppHelper::getProducts(), ['value' => $product->product_id, 'class' => 'form-control select4', 'required' => true, 'prompt' => 'Please Select', 'id' => 'quotation-products-product_id-' . $i,]) ?>
+                            </div>
+
+
+
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-quantity-<?= $i ?>">Quantity </label>
+                                <?= Html::activeTextInput($newProduct, 'quantity[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-quantity-' . $i,
+                                    'required' => true,
+                                    'type' => 'number'
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-rate-<?= $i ?>"> Rate</label>
+                                <?= Html::activeTextInput($newProduct, 'rate[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-rate-' . $i,
+                                    'required' => true,
+                                    'type' => 'number'
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-gst-<?= $i ?>">Gst Rate % </label>
+                                <?= Html::activeTextInput($newProduct, 'gst[]', [
+                                    'maxlength' => true,
+                                    'dataid' => $i,
+                                    'class' => 'form-control gstrate',
+                                    'id' => 'quotation-products-gst-' . $i,
+                                    'required' => true,
+                                    'type' => 'number',
+                                    'onblur' => 'gstcalculate(this)',
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-sgst-<?= $i ?>"> SGST</label>
+                                <?= Html::activeTextInput($newProduct, 'sgst[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-sgst-' . $i,
+                                    'required' => true,
+                                    'type' => 'text',
+                                    'readonly' => true,
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-cgst-<?= $i ?>"> CGST</label>
+                                <?= Html::activeTextInput($newProduct, 'cgst[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-cgst-' . $i,
+                                    'required' => true,
+                                    'type' => 'text',
+                                    'readonly' => true,
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-igst-<?= $i ?>"> ISGT</label>
+                                <?= Html::activeTextInput($newProduct, 'igst[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-igst-' . $i,
+                                    'required' => true,
+                                    'type' => 'text',
+                                    'readonly' => true,
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-total_gst-<?= $i ?>">Total GST</label>
+                                <?= Html::activeTextInput($newProduct, 'total_gst[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-total_gst-' . $i,
+                                    'required' => true,
+                                    'type' => 'text',
+                                    'readonly' => true,
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="quotation-products-total_amount-<?= $i ?>"> Total Amount</label>
+                                <?= Html::activeTextInput($newProduct, 'total_amount[]', [
+                                    'maxlength' => true,
+                                    'class' => 'form-control',
+                                    'id' => 'quotation-products-total_amount-' . $i,
+                                    'required' => true,
+                                    'type' => 'text',
+                                    'readonly' => true,
+                                ]);
+                                ?>
+                            </div>
+
+                            <div class="col-md-1">
+                                <br>
+                                <button class="btn btn-danger"
+                                        onclick="ajaxform.removeBlankFloatForm('<?php echo $i ?>')">Remove
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php endif; ?>
 
         </div>
-    </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <a id="add-product"
+                   onclick="ajaxform.addFloatForm('<?= Url::to(['order-quotation/get-float-form'], true) ?>','ajax-document')"
+                   href="javascript:;"
+                   class="btn btn-info col-md-12">Add More Product</a>
+            </div>
 
-    <div class="row">
-
-        <div id="ajax-document"></div>
-
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
-            <a id="add-product"
-               onclick="ajaxform.addFloatForm('<?= Url::to(['order-quotation/get-float-form'], true) ?>','ajax-document')"
-               href="javascript:;"
-               class="btn btn-info col-md-12">Add More Product</a>
         </div>
 
+        <br>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <br>
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
 <?php
 $this->registerJs("$('.select4').select2({placeholder: 'Please Select',});", \yii\web\View::POS_END);
 ?>
-<?php
+<?php if ($model->isNewRecord): ?>
+    <?php $this->registerJs("ajaxform.addFloatForm('" . Url::to(['order-quotation/get-float-form'], true) . "','ajax-document'); ", \yii\web\View::POS_END); ?>
+<?php endif; ?>
 
-$this->registerJs("ajaxform.addFloatForm('" . Url::to(['order-quotation/get-float-form'], true) . "','ajax-document'); ", \yii\web\View::POS_END);
+<?php
+$quoteUrl = Url::to(['get-inquiry']);
+
 $this->registerJs("
     $('.datepicker').datepicker({
         autoclose: true,
         format: 'yyyy-mm-dd',        
         todayBtn: 'linked',
         todayHighlight: true});
+", \yii\web\View::POS_END);
+$this->registerJs("
+    
+    function quotationHandler(element){
+        var inquiry_number = $(element).val();
+        $.ajax(
+            {
+            type: 'GET',
+            url: 'get-inquiry',
+            data: {
+                id: inquiry_number
+            },
+            success: function (res)
+            {                
+                $('#orderquotation-inquiry_date').val(res[0].inquiry_date);                
+                $('#orderquotation-delivery_period').val(res[0].delivery_period);
+                $('#orderquotation-mod_of_dispatch').val(res[0].mod_of_dispatch);
+                $('#orderquotation-payment_terms').val(res[0].payment_terms);
+                $('#orderquotation-inasurance').val(res[0].inasurance);
+                setTimeout(function () {  $('#orderquotation-client_id').val(res[0].city_id); },500);
+                
+                
+                 $('#orderquotation-inspection_by').val(res[0].state_id).trigger('change');
+                 $('#orderquotation-state_id').val(res[0].state_id).trigger('change');
+                 $('#orderquotation-city_id').val(res[0].city_id).trigger('change');
+                 
+                 for (let [index, product] of Object.entries(res[1])) {
+                        
+                            
+                            setTimeout(function () { 
+                                $('#ajax-document').empty();
+                                ajaxform.addFloatForm('" . Url::to(['order-quotation/get-float-form'], true) . "','ajax-document');
+                                setTimeout(()=>{
+                                   $('#quotation-products-product_id-' + index).val(product.product_id);                                              
+                                   $('#quotation-products-quantity-' + index).val(product.quantity);                                              
+                                   $('#quotation-products-rate-' + index).val(product.rate);                                              
+                                   $('#quotation-products-gst-' + index).val(product.gst);                                              
+                                   $('#quotation-products-sgst-' + index).val(product.sgst);                                              
+                                   $('#quotation-products-cgst-' + index).val(product.cgst);                                              
+                                   $('#quotation-products-igst-' + index).val(product.igst);                                              
+                                   $('#quotation-products-total_gst-' + index).val(product.total_gst);                                              
+                                   $('#quotation-products-total_amount-' + index).val(product.total_amount);                                              
+                                },1000);
+                            }, 2000 * index);
+                            
+                            
+                                                                             
+                                                      
+                 }   
+            }
+        });
+        
+        
+    }
+    
 ", \yii\web\View::POS_END);
 $this->registerJs("
     $('input[type=number]').on(
@@ -168,5 +394,18 @@ $this->registerJs("
             $('#quotation-products-quantity-'+id).focus();
         }
     }
+    
+    
+     $('#isQuoteIncluded').change(function() {
+        if($(this).is(':checked')) {            
+           $('.quotations').fadeIn(1000);
+        } 
+        if(!$(this).is(':checked')) {            
+           $('.quotations').fadeOut();
+        }
+        
+    });
+    
+    
 ", \yii\web\View::POS_END);
 ?>

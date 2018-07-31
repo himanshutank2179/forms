@@ -18,8 +18,11 @@ use Yii;
  * @property int $approved_by
  * @property int $state_id
  * @property int $city_id
+ * @property int $client_id
  * @property int $is_deleted
  * @property string $created_at
+ * @property string $type
+ * @property string $inquiry_number
  *
  * @property Users $inspectionBy
  * @property Users $approvedBy
@@ -41,8 +44,9 @@ class OrderQuotation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at','state_id','city_id'], 'required'],
-            [['inquiry_date', 'created_at'], 'safe'],
+            [['inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at', 'state_id', 'city_id', 'inasurance', 'client_id', 'is_deleted', 'type', 'created_at', 'inquiry_number'], 'safe'],
+            [['inquiry_date', 'delivery_period', 'our_quote_ref_num',  'created_at', 'state_id', 'city_id'], 'required'],
+            [['inquiry_date', 'created_at', 'client_id', 'type','client_address','client_mobile','inquiry_remark','mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by'], 'safe'],
             [['inspection_by', 'approved_by', 'is_deleted'], 'integer'],
             [['delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance'], 'string', 'max' => 255],
             [['inspection_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['inspection_by' => 'user_id']],
@@ -62,13 +66,14 @@ class OrderQuotation extends \yii\db\ActiveRecord
             'our_quote_ref_num' => 'Our Quote Ref Num',
             'mod_of_dispatch' => 'Mod Of Dispatch',
             'payment_terms' => 'Payment Terms',
-            'inasurance' => 'Inasurance',
+            'inasurance' => 'Insurance',
             'inspection_by' => 'Inspection By',
             'approved_by' => 'Approved By',
             'is_deleted' => 'Is Deleted',
             'created_at' => 'Created At',
             'state_id' => 'State',
             'city_id' => 'City',
+            'client_id' => 'Client',
         ];
     }
 
@@ -86,6 +91,11 @@ class OrderQuotation extends \yii\db\ActiveRecord
     public function getApprovedBy()
     {
         return $this->hasOne(Users::className(), ['user_id' => 'approved_by']);
+    }
+
+    public function getClient()
+    {
+        return $this->hasOne(Clients::className(), ['client_id' => 'client_id']);
     }
 
     /**

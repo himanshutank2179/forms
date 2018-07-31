@@ -127,6 +127,13 @@ class AppHelper
         return $list;
     }
 
+    static public function getInquiryNumbers()
+    {
+        $data = OrderQuotation::find()->all();
+        $list = ArrayHelper::map($data, 'order_quotation_id', 'inquiry_number');
+        return $list;
+    }
+
     static public function getUnitsOfMeasures()
     {
         $data = UnitsOfMeasures::find()->all();

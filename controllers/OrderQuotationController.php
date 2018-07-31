@@ -37,14 +37,15 @@ class OrderQuotationController extends Controller
      * Lists all OrderQuotation models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($type)
     {
         $searchModel = new OrderQuotationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $type);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+
         ]);
     }
 
@@ -66,46 +67,91 @@ class OrderQuotationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($type = 'quotations')
     {
         $model = new OrderQuotation();
 
-        if ($model->load(Yii::$app->request->post()))
-        {
+
+        if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->bodyParams;
-            $model->created_at =date('Y-m-d H:i:s');
-            $model->our_quote_ref_num = AppHelper::getRandomOrderNo();
-            if($model->save())
-            {
-                if (isset($data['QuotationProducts']['product_id']))
-                {
+
+
+
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->type = $type;
+            if ($type = 'requirements') {
+                $model->inquiry_number = AppHelper::getRandomOrderNo();
+            } else {
+                $model->our_quote_ref_num = AppHelper::getRandomOrderNo();
+            }
+            $isModelSaved = ($type == 'requirements') ? $model->save(false) : $model->save();
+            if ($isModelSaved) {
+                if (isset($data['QuotationProducts']['product_id'])) {
                     $size = sizeof($data['QuotationProducts']['product_id']);
-                    for ($i = 0; $i < $size; $i++)
-                    {
+                    for ($i = 0; $i < $size; $i++) {
                         $qproduct = new QuotationProducts();
-                       $qproduct->product_id = $data['QuotationProducts']['product_id'][$i];
-                       $qproduct->order_quotation_id = $model->order_quotation_id;
-                       $qproduct->quantity = $data['QuotationProducts']['quantity'][$i];
-                       $qproduct->rate = $data['QuotationProducts']['rate'][$i];
-                       $qproduct->gst = $data['QuotationProducts']['gst'][$i];
-                       $qproduct->sgst = $data['QuotationProducts']['sgst'][$i];
-                       $qproduct->cgst = $data['QuotationProducts']['cgst'][$i];
-                       $qproduct->igst = $data['QuotationProducts']['igst'][$i];
-                       $qproduct->total_gst = $data['QuotationProducts']['total_gst'][$i];
-                       $qproduct->total_amount = $data['QuotationProducts']['total_amount'][$i];
-                        if(!$qproduct->save())
-                       {
+
+                        $qproduct->product_id = $data['QuotationProducts']['product_id'][$i];
+                        $qproduct->order_quotation_id = $model->order_quotation_id;
+                        $qproduct->quantity = $data['QuotationProducts']['quantity'][$i];
+                        $qproduct->rate = $data['QuotationProducts']['rate'][$i];
+                        $qproduct->gst = $data['QuotationProducts']['gst'][$i];
+                        $qproduct->sgst = $data['QuotationProducts']['sgst'][$i];
+                        $qproduct->cgst = $data['QuotationProducts']['cgst'][$i];
+                        $qproduct->igst = $data['QuotationProducts']['igst'][$i];
+                        $qproduct->total_gst = $data['QuotationProducts']['total_gst'][$i];
+                        $qproduct->total_amount = $data['QuotationProducts']['total_amount'][$i];
+                        $isProductSaved = ($type == 'requirements') ? $qproduct->save(false) : $qproduct->save();
+                        if (!$isProductSaved) {
                             print_r($qproduct->errors);
                             exit();
-                       }
+                        }
                     }
                 }
+            } else {
+                print_r($model->errors);
+                exit();
             }
-            else
-            {
-                print_r($model->errors); exit();
+
+
+            // If isQuoteIncluded is 1 then creating Quote
+            $newQoute = new OrderQuotation();
+            $request = Yii::$app->request->bodyParams;
+            $newQoute->attributes = $data['OrderQuotation'];
+            $newQoute->created_at = date('Y-m-d H:i:s');
+            $newQoute->type = $type;
+            $newQoute->inquiry_number = $model->inquiry_number;
+            $newQoute->type = 'quotations';
+            $newQoute->our_quote_ref_num = AppHelper::getRandomOrderNo();
+
+            $isModelSaved = $newQoute->save(false);
+            if ($isModelSaved) {
+                if (isset($request['QuotationProducts']['product_id'])) {
+                    $size = sizeof($request['QuotationProducts']['product_id']);
+                    for ($i = 0; $i < $size; $i++) {
+                        $qproduct = new QuotationProducts();
+                        $qproduct->product_id = $request['QuotationProducts']['product_id'][$i];
+                        $qproduct->order_quotation_id = $model->order_quotation_id;
+                        $qproduct->quantity = $request['QuotationProducts']['quantity'][$i];
+                        $qproduct->rate = $request['QuotationProducts']['rate'][$i];
+                        $qproduct->gst = $request['QuotationProducts']['gst'][$i];
+                        $qproduct->sgst = $request['QuotationProducts']['sgst'][$i];
+                        $qproduct->cgst = $request['QuotationProducts']['cgst'][$i];
+                        $qproduct->igst = $request['QuotationProducts']['igst'][$i];
+                        $qproduct->total_gst = $request['QuotationProducts']['total_gst'][$i];
+                        $qproduct->total_amount = $request['QuotationProducts']['total_amount'][$i];
+                        $isProductSaved = $qproduct->save(false);
+                        if (!$isProductSaved) {
+                            print_r($qproduct->errors);
+                            exit();
+                        }
+                    }
+                }
+            } else {
+                print_r($newQoute->errors);
+                exit();
             }
-            return $this->redirect(['index']);
+            return $this->redirect(['index?type=' . $type]);
         }
         return $this->render('create', [
             'model' => $model,
@@ -119,7 +165,7 @@ class OrderQuotationController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $type)
     {
         $model = $this->findModel($id);
 
@@ -203,11 +249,20 @@ class OrderQuotationController extends Controller
 
     }
 
-    public function actionPrintOrderquotation($id){
+    public function actionPrintOrderquotation($id)
+    {
         $model = OrderQuotation::findOne($id);
         $content = $this->renderPartial('_print_quotation', ['quotation' => $model]);
         $pdf = Yii::$app->pdf;
         $pdf->content = $content;
         return $pdf->render();
+    }
+
+    public function actionGetInquiry($id)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $inquiry = OrderQuotation::find()->where(['order_quotation_id' => $id])->one();
+        $products = $inquiry->quotationProducts;
+        return [$inquiry, $products];
     }
 }

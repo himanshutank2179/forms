@@ -26,6 +26,7 @@ use Yii;
  */
 class OrderConformation extends \yii\db\ActiveRecord
 {
+    public $is_ready_to_sale;
     /**
      * @inheritdoc
      */
@@ -41,7 +42,7 @@ class OrderConformation extends \yii\db\ActiveRecord
     {
         return [
             [['order_number', 'inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at'], 'required'],
-            [['inspection_by', 'inquiry_date', 'created_at','state_id','city_id','client_id'], 'safe'],
+            [['inspection_by', 'inquiry_date', 'created_at','state_id','city_id','client_id','is_ready_to_sale'], 'safe'],
             [['state_id', 'city_id', 'approved_by', 'is_deleted'], 'integer'],
             [['order_number', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance'], 'string', 'max' => 255],
             [['approved_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['approved_by' => 'user_id']],

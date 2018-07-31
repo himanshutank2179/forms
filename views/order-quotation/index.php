@@ -3,12 +3,19 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderQuotationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$type = Yii::$app->getRequest()->getQueryParam('type');
+if ($type == 'requirements') {
+    $this->title = 'Customer Requirements';
+    $this->params['breadcrumbs'][] = $this->title;
+} else {
+    $this->title = 'Order Quotations';
+    $this->params['breadcrumbs'][] = $this->title;
+}
 
-$this->title = 'Order Quotations';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-quotation-index">
 
@@ -17,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Order Quotation', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create', ['create?type=' . $type], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -28,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             /*'order_quotation_id',*/
             'inquiry_date',
+            'inquiry_number',
             'delivery_period',
             'our_quote_ref_num',
             'mod_of_dispatch',
@@ -43,6 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete} {print}',
                 'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', \yii\helpers\Url::to(['update', 'id' => $model->order_quotation_id,'type'=> Yii::$app->getRequest()->getQueryParam('type')]), []);
+                    },
                     'print' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print-orderquotation', 'id' => $model->order_quotation_id]), ['target' => '_blank', 'data-pjax' => "0"]);
                     },

@@ -39,7 +39,7 @@ class OrderQuotationSearch extends OrderQuotation
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $type)
     {
         $query = OrderQuotation::find();
 
@@ -65,6 +65,7 @@ class OrderQuotationSearch extends OrderQuotation
             'approved_by' => $this->approved_by,
             'is_deleted' => $this->is_deleted,
             'created_at' => $this->created_at,
+            'type' => $type,
         ]);
 
         $query->andFilterWhere(['like', 'delivery_period', $this->delivery_period])

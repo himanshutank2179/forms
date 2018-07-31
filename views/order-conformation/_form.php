@@ -10,76 +10,86 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="order-conformation-form">
+    <div class="order-conformation-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
 
-            <?= $form->field($model, 'our_quote_ref_num')->dropDownList(AppHelper::getQuotationRef(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+                <?= $form->field($model, 'our_quote_ref_num')->dropDownList(AppHelper::getQuotationRef(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
-            <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
+                <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
 
-            <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
+                <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select', 'onchange' => '$.post( "' . Yii::$app->urlManager->createUrl('order-quotation/city-list?id=') . '"+$(this).val(), function( data ) {
                     $( "#orderconformation-city_id" ).html( data );
                 });
             ']) ?>
-            <?= $form->field($model, 'client_id')->dropDownList(AppHelper::getClients(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'client_id')->dropDownList(AppHelper::getClients(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'inspection_by')->dropDownList([
-                'Vendor'=>'Vendor',
-                'Third Party'=>'Third Party',
-                'Customer By Own'],
-                ['class' => 'form-control select4', 'prompt' => 'Please Select', ]) ?>
+                <?= $form->field($model, 'inspection_by')->dropDownList([
+                    'Vendor' => 'Vendor',
+                    'Third Party' => 'Third Party',
+                    'Customer By Own'],
+                    ['class' => 'form-control select4', 'prompt' => 'Please Select',]) ?>
 
-            <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+                <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
-            <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-        </div>
-    </div>
+                <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
-    <div class="row">
-
-        <div id="ajax-document">
-            
+                <?= $form->field($model, 'is_ready_to_sale')->dropDownList(['YES' => 'YES', 'NO' => 'NO'], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+            </div>
         </div>
 
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
-            <a id="add-product"
-               onclick="ajaxform.addFloatForm('<?= Url::to(['order-conformation/get-float-form'], true) ?>','ajax-document')"
-               href="javascript:;"
-               class="btn btn-info col-md-12">Add More Product</a>
+        <div class="row">
+            <?php if (!$model->isNewRecord): ?>
+
+                <?php foreach ($oldProducts as $product): ?>
+
+
+                <?php endforeach; ?>
+
+
+            <?php endif; ?>
         </div>
 
+        <div class="row">
+
+            <div id="ajax-document">
+
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <a id="add-product"
+                   onclick="ajaxform.addFloatForm('<?= Url::to(['order-conformation/get-float-form'], true) ?>','ajax-document')"
+                   href="javascript:;"
+                   class="btn btn-info col-md-12">Add More Product</a>
+            </div>
+
+        </div>
+
+        <br>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <br>
-
-
-
-
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
 <?php
 
 $this->registerJs("ajaxform.addFloatForm('" . Url::to(['order-conformation/get-float-form'], true) . "','ajax-document'); ", \yii\web\View::POS_END);
