@@ -73,9 +73,9 @@ class OrderQuotationController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->bodyParams;
-            // echo "<pre>";
-            // print_r($data);
-            // exit();
+//            echo "<pre>";
+//            print_r($data);
+//            exit();
 
             $model->created_at = date('Y-m-d H:i:s');
             $model->type = $type;
@@ -115,8 +115,7 @@ class OrderQuotationController extends Controller
 
 
             // If isQuoteIncluded is 1 then creating Quote
-            if(isset($request['isQuoteIncluded']))
-            {
+            if (isset($data['isQuoteIncluded']) && $data['isQuoteIncluded'] == 1) {
                 $newQoute = new OrderQuotation();
                 $request = Yii::$app->request->bodyParams;
                 $newQoute->attributes = $data['OrderQuotation'];
