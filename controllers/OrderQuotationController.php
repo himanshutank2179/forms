@@ -73,10 +73,6 @@ class OrderQuotationController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->bodyParams;
-//            echo "<pre>";
-//            print_r($data);
-//            exit();
-
             $model->created_at = date('Y-m-d H:i:s');
             $model->type = $type;
             if ($type = 'requirements') {
