@@ -331,5 +331,11 @@ class IncommingQcController extends Controller
         }
     }
 
-
+    public function actionPrint($id){
+        $model = IncommingQc::findOne($id);
+        $content = $this->renderPartial('_print', ['qc' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

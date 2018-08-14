@@ -29,9 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         /*    'process_master_id',*/
             'name',
             /*'is_deleted',*/
-            'created_at',
+            // 'created_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print', 'id' => $model->process_master_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                    },
+                ],
+            ]
         ],
     ]); ?>
     <?php Pjax::end(); ?>

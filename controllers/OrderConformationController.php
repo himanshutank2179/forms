@@ -3,9 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\AppHelper;
-use app\models\Indent;
 use app\models\OrderConfProducts;
-use app\models\ProductInventory;
 use Yii;
 use app\models\OrderConformation;
 use app\models\OrderConformationSearch;
@@ -74,9 +72,9 @@ class OrderConformationController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->bodyParams;
-            /* echo "<pre>";
-             print_r($data['OrderConformation']['is_ready_to_sale']);
-             exit();*/
+            // echo "<pre>";
+            // print_r($data);
+            // exit();
             $model->created_at = date('Y-m-d H:i:s');
             $model->order_number = AppHelper::getRandomOrderNo();
             if ($model->save()) {
@@ -94,39 +92,9 @@ class OrderConformationController extends Controller
                         $qproduct->igst = $data['OrderConfProducts']['igst'][$i];
                         $qproduct->total_gst = $data['OrderConfProducts']['total_gst'][$i];
                         $qproduct->total_amount = $data['OrderConfProducts']['total_amount'][$i];
-                        if ($qproduct->save()) {
-                            // Checking Is Ready To sale
-                            if ($data['OrderConformation']['is_ready_to_sale'] == 'YES') {
-                                // Checking For Finish Product Availability
-                                $productInventory = ProductInventory::find()
-                                    ->where(['product_id' => $qproduct->product_id])
-                                    ->andWhere(['>=', 'current_qty', $qproduct->quantity])
-                                    ->one();
-                                if ($productInventory) {
-                                    $productInventory->current_qty = ($productInventory->current_qty - $qproduct->quantity);
-                                    $productInventory->save(false);
-                                } else {
-                                    $requiredQty = $productInventory->current_qty - $qproduct->quantity;
-                                    // Creating Indent
-                                    $newIndent = new Indent();
-                                    $newIndent->purchase_indent_no = date('Ymd') . rand(0000, 9999);
-                                    $newIndent->date = date('Y-m-d');
-                                    $newIndent->purchase_monitoring = 'N/A';
-                                    $newIndent->reviewed_by = 0;
-                                    $newIndent->remark = 'N/A';
-                                    $newIndent->created_at = date('Y-m-d H:s:i');
-                                    if ($newIndent->save(false)) {
-
-
-                                    }
-
-                                }
-
-                            } else {
-
-                            }
-
-
+                        if (!$qproduct->save()) {
+                            print_r($qproduct->errors);
+                            exit();
                         }
                     }
                 }

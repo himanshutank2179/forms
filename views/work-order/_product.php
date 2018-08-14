@@ -20,7 +20,7 @@ use yii\helpers\Url;
             <label for="work-order-product_id-<?= $i ?>"> Product </label>
 
             <?=
-            Html::activeDropDownList($model, 'product_id[]', AppHelper::getRawMaterials(), [
+            Html::activeDropDownList($model, 'product_id[]', AppHelper::getRawMaterialsAll(), [
                 'class' => 'form-control select4',
                 'prompt' => 'Please Select',
                 'id' => 'work-order-product_id-' . $i,

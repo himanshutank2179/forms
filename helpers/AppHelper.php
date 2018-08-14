@@ -105,6 +105,12 @@ class AppHelper
         $list = ArrayHelper::map($data, 'product_master_id', 'product_name');
         return $list;
     }
+    static public function getRawMaterialsAll()
+    {
+        $data = ProductMaster::find()->where(['is_deleted' => 0])->all();
+        $list = ArrayHelper::map($data, 'product_master_id', 'product_name');
+        return $list;
+    }
 
     static public function getOperations()
     {

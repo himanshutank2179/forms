@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ProductMaster;
 use Yii;
 use app\models\ProcessMaster;
 use app\models\ProcessMasterSearch;
@@ -125,5 +126,12 @@ class ProcessMasterController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionPrint($id){
+        $model = ProcessMaster::findOne($id);
+        $content = $this->renderPartial('_print', ['process' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
     }
 }

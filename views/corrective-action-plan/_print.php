@@ -1,148 +1,106 @@
-<table border="1" cellspacing="0" cellpadding="0">
-    <tbody>
-    <tr>
-        <td colspan="8" width="568" align="center"><strong><em><br clear="all"/></em></strong>
-            <h1 align="center" style="text-align: center;"><i>Corrective and Preventive Action Report</i></h1>
-        </td>
-        <td width="98">
-            <p align="right" style="font-size: 27px;">F/QMS/06</p>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" valign="top" width="337">
-            <p style="font-size: 27px;">Sr. No. : <span style="font-size: 27px;"> <?= $model->corrective_action_plan_id ?></span></p>
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Akash
+ * Date: 8/7/2018
+ * Time: 6:35 PM
+ */
+ ?>
+ <h1 align="center">Corrective Action Plan</h1>
+ <table width="100%"  style="border-collapse: collapse; border: 1px solid black; text-align: left;">
+ 	<tr>
+ 		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+ 			<b>Date</b>
+ 		</td>
+ 		<td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+ 			<b>Department</b>
+ 		</td>
+ 		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+         			<b>Identified By</b>
+         		</td>
+         		<td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+         			<b>Taken By</b>
+         		</td>
+         	</tr>
 
-        </td>
-        <td colspan="5" valign="top" width="329">
-            <p style="font-size: 27px;">Date: <span style="font-size: 27px;">
-                <?= getExactField($model->date )?></span></p>
+         	<tr>
+             		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+             			<p><?= getExactField($action->date) ?></p>
+             		</td>
+             		<td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+             			<p><?= getExactField($action->department->name) ?></p>
+             		</td>
+             		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                     		<p><?= getExactField($action->identified_by) ?></p>
+                     </td>
+                     <td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                     		<p><?= getExactField($action->taken_by) ?></p>
+                     </td>
+            </tr>
 
-        </td>
-    </tr>
+         	<tr>
+        <td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+         			<b>Nonconformity Identified During</b>
+         		</td>
+         		<td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+         			<b>Description of Non conformity</b>
+         		</td>
+         	<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                     			<b>Root Cause of Non-conformitiy (Result of Investigation)</b>
+                     		</td>
+                     		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                     			<b>C-Action Recommended/b>
+                     		</td>
+ 	</tr>
+
     <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">Department: </p>
-            <p style="font-size: 27px;"><?= getExactField($model->department->name )?> </p>
+                 	<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                 			<p><?= getExactField($action->non_confirmitie) ?></p>
+                 		</td>
+                 		<td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                 			<p><?= getExactField($action->non_confirmitie_desc) ?></p>
+                 		</td>
+                 		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                         		<p><?= getExactField($action->result_of_investigation) ?></p>
+                         </td>
+                         <td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                         		<p><?= getExactField($action->c_action_recomand) ?></p>
+                         </td>
+                </tr>
 
-        </td>
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
+ 	<tr>
+            <td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+             			<b>C-Action Taken(Evidence)</b>
+             		</td>
+             		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+             			<b>Review Effectiveness of Corrective & Preventive Action Taken</b>
+             		</td>
+             	<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                         			<b>Applicable Documentation	</b>
+                         		</td>
+                         		<td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                         			<b>Management Representative/b>
+                         		</td>
+     	</tr>
 
-            <p style="font-size: 27px;"><?= getExactField($model->non_confirmitie) ?></p>
+            <tr>
+                                <td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                                        <p><?= getExactField($action->evidence) ?></p>
+                                    </td>
+                                    <td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                                        <p><?= getExactField($action->correction_effect) ?></p>
+                                    </td>
+                                    <td style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                                            <p><?= getExactField($action->applicable_doc) ?></p>
+                                     </td>
+                                     <td  style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                                            <p><?= getExactField($action->management_representative) ?></p>
+                                     </td>
+                            </tr>
 
-        </td>
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">Description of Non conformity:</p>
-            <p style="font-size: 27px;">
-                <?= getExactField($model->non_confirmitie_desc) ?>
-            </p>
-
-        </td>
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">Root Cause of Non-conformitiy (Result of Investigation) :</p>
-            <p style="font-size: 27px;"><?= getExactField($model->result_of_investigation) ?></p>
-
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top" width="204">
-            <p style="font-size: 27px;">Date : <?= $model->date ?> </p>
-
-        </td>
-        <td colspan="7" valign="top" width="462">
-            <p style="font-size: 27px;">Identified By:</p>
-            <p style="font-size: 27px;">
-                <?= getExactField(ucfirst($model->identifiedBy->name)) ?>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" valign="top" width="486">
-            <p style="font-size: 27px;">C-Action Recommended</p>
-            <p style="font-size: 27px;">
-
-                <?= getExactField($model->c_action_recomand) ?>
-            </p>
-        </td>
-<!--        <td colspan="2" valign="top" width="180">-->
-<!--            <p align="center" style="font-size: 27px;">Responsibility</p>-->
-<!--            --><?php ////getExactField($model->responsibility->responsibility) ?>
-<!--        </td>-->
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">C-Action Taken(Evidence)</p>
-            <p style="font-size: 27px;">
-                <?= $model->evidence ?>
-            </p>
-
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" valign="top" width="204">
-            <p style="font-size: 27px;">Date : <?= $model->date ?></p>
-
-        </td>
-        <td colspan="7" valign="top" width="462">
-            <p style="font-size: 27px;">Taken By : <?= ucfirst($model->identifiedBy->name) ?></p>
-
-        </td>
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">Summary of Any Preventive Action Taken / Document Change etc. :</p>
-            <p>&nbsp;</p>
-            <p style="font-size: 27px;">
-            <?= getExactField($model->document_change) ?>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="9" valign="top" width="666">
-            <p style="font-size: 27px;">Review Effectiveness of Corrective &amp; Preventive Action Taken:</p>
-            <p>&nbsp;</p>
-            <p style="font-size: 27px;">
-            <?= getExactField($model->correction_effect) ?>
-            </p>
-            <p>&nbsp;</p>
-            <p style="font-size: 27px;">Sign of HOD/C-A implemented</p>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" valign="top" width="333">
-            <p style="font-size: 27px;">Date :</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        </td>
-        <td colspan="6" valign="top" width="333">
-            <p style="font-size: 27px;">&nbsp;</p>
-            <p align="right" style="font-size: 27px;">Management Representative</p>
-            <p align="right" style="font-size: 27px;"><?= getExactField($model->management_representative) ?></p>
-
-        </td>
-    </tr>
-    <tr>
-        <td valign="top" width="48">
-            <ol>
-                <li>&nbsp;</li>
-            </ol>
-        </td>
-        <td colspan="4" valign="top" width="297">
-            <p style="font-size: 27px;">Applicable Documentation</p>
-            <p style="font-size: 27px;"><?= getExactField($model->applicable_doc) ?></p>
-
-        </td>
-        <td valign="top" width="133">
-            <p align="center" style="font-size: 27px;">YES / NO</p>
-        </td>
-        <td colspan="3" valign="top" width="188">
-            <p>&nbsp;</p>
-        </td>
-    </tr>
-   
-    </tbody>
+     	<tr>
+                    <td colspan="5" style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
+                     			<b>Summary of Any Preventive Action Taken / Document Change etc. :</b><?= getExactField($action->document_change) ?>
+                     		</td>
+                     	</tr>
 </table>

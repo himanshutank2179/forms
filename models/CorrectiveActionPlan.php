@@ -43,7 +43,7 @@ class CorrectiveActionPlan extends \yii\db\ActiveRecord
             [['date'], 'safe'],
             [['identified_by', 'responsibility', 'taken_by'], 'integer'],
             [['non_confirmitie_desc', 'result_of_investigation', 'evidence', 'document_change', 'correction_effect', 'applicable_doc'], 'string'],
-            [['department_id', 'c_action_recomand', 'management_representative'], 'string', 'max' => 255],
+            [['department_id', 'c_action_recomand', 'management_representative','non_confirmitie'], 'string', 'max' => 255],
         ];
     }
 

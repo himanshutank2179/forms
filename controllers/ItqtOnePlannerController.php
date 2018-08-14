@@ -159,4 +159,12 @@ class ItqtOnePlannerController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return Parameters::find()->where(['product_id' => $product_id])->all();
     }
+
+    public function actionPrint($id){
+        $model = ItqtOnePlanner::findOne($id);
+        $content = $this->renderPartial('_print', ['onepln' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

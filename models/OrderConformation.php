@@ -84,4 +84,12 @@ class OrderConformation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Clients::className(), ['client_id' => 'client_id']);
     }
+    public function getCity()
+    {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+    public function getState()
+    {
+        return $this->hasOne(States::className(), ['id' => 'state_id']);
+    }
 }

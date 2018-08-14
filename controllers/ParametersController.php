@@ -134,4 +134,12 @@ class ParametersController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrint($id){
+        $model = Parameters::findOne($id);
+        $content = $this->renderPartial('_print', ['para' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

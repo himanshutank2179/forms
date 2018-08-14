@@ -154,4 +154,13 @@ class EmployeeController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrint($id)
+    {
+        $model = Employee::findOne($id);
+        $content = $this->renderPartial('_print_emp', ['emp' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

@@ -29,7 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'product_mfg_tracker_id',
-            'product_id',
+            [
+                'attribute' => 'product_id',
+
+                'value' => function ($data) {
+                    return $data->product->product_name;
+                },
+
+            ],
             'qty',
         ],
     ]) ?>

@@ -10,89 +10,219 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-    <div class="order-conformation-form">
+<div class="order-conformation-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-        <div class="row">
-            <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-6">
 
-                <?= $form->field($model, 'our_quote_ref_num')->dropDownList(AppHelper::getQuotationRef(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+            <?= $form->field($model, 'our_quote_ref_num')->dropDownList(AppHelper::getQuotationRef(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
-                <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
+            <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
 
-                <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'delivery_period')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select', 'onchange' => '$.post( "' . Yii::$app->urlManager->createUrl('order-quotation/city-list?id=') . '"+$(this).val(), function( data ) {
+            <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
                     $( "#orderconformation-city_id" ).html( data );
                 });
             ']) ?>
-                <?= $form->field($model, 'client_id')->dropDownList(AppHelper::getClients(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-            </div>
-            <div class="col-md-6">
-                <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'client_id')->dropDownList(AppHelper::getClients(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'inasurance')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'inspection_by')->dropDownList([
-                    'Vendor' => 'Vendor',
-                    'Third Party' => 'Third Party',
-                    'Customer By Own'],
-                    ['class' => 'form-control select4', 'prompt' => 'Please Select',]) ?>
+            <?= $form->field($model, 'inspection_by')->dropDownList([
+                'Vendor'=>'Vendor',
+                'Third Party'=>'Third Party',
+                'Customer By Own'],
+                ['class' => 'form-control select4', 'prompt' => 'Please Select', ]) ?>
 
-                <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+            <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
-                <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+            <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+        </div>
+    </div>
 
-                <?= $form->field($model, 'is_ready_to_sale')->dropDownList(['YES' => 'YES', 'NO' => 'NO'], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
-            </div>
+    <div class="row">
+
+        <div id="ajax-document">
+            <?php
+
+                if (!$model->isNewRecord)
+                {
+                    $quotationproducts = app\models\OrderConfProducts::find()->where(['order_conformation_id' => $model->order_conformation_id])->all();
+                    foreach ($quotationproducts as $i => $product):
+                    ?>
+                    <div class="animated bounceInRight create-po document-form" id="<?= $i ?>">
+    <div class="row">
+
+        <div class="col-md-2">
+            <label for="order-conf-products-product_id-<?= $i ?>"> Product </label>
+            <?= Html::activeDropDownList($product, 'product_id[]', AppHelper::getProducts(),['value'=> $product->product_id,'class' => 'form-control select4', 'required' => true, $product->product_id => $product->product_id,'id'=> 'order-conf-products-product_id-'.$i,]) ?>
+        </div>
+        
+        <div class="col-md-1">
+            <label for="order-conf-products-quantity-<?= $i ?>">Quantity </label>
+            <?= Html::activeTextInput($product, 'quantity[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-quantity-' . $i,
+                'required' => true,
+                'type'=>'number',
+                'value' => $product->quantity,
+            ]);
+            ?>
         </div>
 
-        <div class="row">
-            <?php if (!$model->isNewRecord): ?>
-
-                <?php foreach ($oldProducts as $product): ?>
-
-
-                <?php endforeach; ?>
-
-
-            <?php endif; ?>
+        <div class="col-md-1">
+            <label for="order-conf-products-rate-<?= $i ?>"> Rate</label>
+            <?= Html::activeTextInput($product, 'rate[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-rate-' . $i,
+                'required' => true,
+                'type'=>'number',
+                'value' => $product->rate,
+            ]);
+            ?>
         </div>
 
-        <div class="row">
-
-            <div id="ajax-document">
-
-            </div>
-
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-12">
-                <a id="add-product"
-                   onclick="ajaxform.addFloatForm('<?= Url::to(['order-conformation/get-float-form'], true) ?>','ajax-document')"
-                   href="javascript:;"
-                   class="btn btn-info col-md-12">Add More Product</a>
-            </div>
-
+        <div class="col-md-1">
+            <label for="order-conf-products-gst-<?= $i ?>">Gst Rate % </label>
+            <?= Html::activeTextInput($product, 'gst[]', [
+                'maxlength' => true,
+                'dataid' => $i,
+                'class' => 'form-control gstrate',
+                'id' => 'order-conf-products-gst-' . $i,
+                'required' => true,
+                'type'=>'number',
+                'onblur' => 'gstcalculate(this)',
+                'value' => $product->gst,
+            ]);
+            ?>
         </div>
 
-        <br>
-
-
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <div class="col-md-1">
+            <label for="order-conf-products-sgst-<?= $i ?>"> SGST</label>
+            <?= Html::activeTextInput($product, 'sgst[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-sgst-' . $i,
+                'required' => true,
+                'type'=>'text',
+                'readonly' => true,
+                'value' => $product->sgst,
+            ]);
+            ?>
         </div>
 
-        <?php ActiveForm::end(); ?>
+        <div class="col-md-1">
+            <label for="order-conf-products-cgst-<?= $i ?>"> CGST</label>
+            <?= Html::activeTextInput($product, 'cgst[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-cgst-' . $i,
+                'required' => true,
+                'type'=>'text',
+                'readonly' => true,
+                'value' => $product->cgst,
+            ]);
+            ?>
+        </div>
+
+        <div class="col-md-1">
+            <label for="order-conf-products-igst-<?= $i ?>"> ISGT</label>
+            <?= Html::activeTextInput($product, 'igst[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-igst-' . $i,
+                'required' => true,
+                'type'=>'text',
+                'readonly' => true,
+                'value' => $product->igst,
+            ]);
+            ?>
+        </div>
+
+        <div class="col-md-1">
+            <label for="order-conf-products-total_gst-<?= $i ?>">Total GST</label>
+            <?= Html::activeTextInput($product, 'total_gst[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-total_gst-' . $i,
+                'required' => true,
+                'type'=>'text',
+                'readonly' => true,
+                'value' => $product->total_gst,
+            ]);
+            ?>
+        </div>
+
+        <div class="col-md-2">
+            <label for="order-conf-products-total_amount-<?= $i ?>"> Total Amount</label>
+            <?= Html::activeTextInput($product, 'total_amount[]', [
+                'maxlength' => true,
+                'class' => 'form-control',
+                'id' => 'order-conf-products-total_amount-' . $i,
+                'required' => true,
+                'type'=>'text',
+                'readonly' => true,
+                'value' => $product->total_amount,
+            ]);
+            ?>
+        </div>
+
+        <div class="col-md-1">
+            <br>
+            <button class="btn btn-danger" onclick="ajaxform.removeBlankFloatForm('<?php echo $i ?>')">Remove</button>
+        </div>
+
 
     </div>
-<?php
+</div>
 
+                    <?php
+                    endforeach;
+                }
+            ?>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <a id="add-product"
+               onclick="ajaxform.addFloatForm('<?= Url::to(['order-conformation/get-float-form'], true) ?>','ajax-document')"
+               href="javascript:;"
+               class="btn btn-info col-md-12">Add More Product</a>
+        </div>
+
+    </div>
+
+    <br>
+
+
+
+
+
+
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>
+<?php
+if ($model->isNewRecord)
+{
 $this->registerJs("ajaxform.addFloatForm('" . Url::to(['order-conformation/get-float-form'], true) . "','ajax-document'); ", \yii\web\View::POS_END);
+}
 $this->registerJs("$('.select4').select2({placeholder: 'Please Select',});", \yii\web\View::POS_END);
 ?>
 

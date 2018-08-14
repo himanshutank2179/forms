@@ -51,7 +51,7 @@ use app\models\WorkOrderProducts
 			Actual Qty.
 		</td>
 		<td width="8%" style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;" class="text-center">
-			Sr.No.
+			Lot.No.
 		</td>
 		<td width="10%" style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;" class="text-center">
 			Pending

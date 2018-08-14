@@ -41,22 +41,31 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Html::activeDropDownList($searchModel, 'user_id', AppHelper::getEmployee(), ['class' => 'form-control select','prompt' => 'Filter By Users']),
 
             ],
-            /*[
+            [
                 'attribute' => 'is_trained',
 
                 'value' => function ($data) {
-                    return (getExactField($data->is_trained) == 0 ) ? 'NO' : 'YES';
+                    return ($data->is_trained == 0 ) ? 'NO' : 'YES';
                 },
 
-                'filter' => Html::activeDropDownList($searchModel, 'is_trained', [1 => 'YES', 0 => 'NO'], ['class' => 'form-control select','prompt' => 'Filter']),
-            ],*/
+//                'filter' => Html::activeDropDownList($searchModel, 'is_trained', [1 => 'YES', 0 => 'NO'], ['class' => 'form-control select','prompt' => 'Filter']),
+                'filter' => false
+            ],
 
             //'designation',
             //'actual_trining_date',
             //'faculty',
             //'training_feedback:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print', 'id' => $model->training_planner_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                    },
+                ],
+            ]
         ],
     ]); ?>
     <?php Pjax::end(); ?>

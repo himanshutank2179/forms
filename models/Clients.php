@@ -41,10 +41,13 @@ class Clients extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email', 'account_number', 'bank_ifsc', 'gstin', 'pan', 'flat', 'street', 'landmark', 'area', 'city', 'state', 'statecode', 'country', 'created_at'], 'required'],
-            [['is_deleted'], 'integer'],
+            [['name', 'email', 'account_number', 'bank_ifsc', 'gstin', 'pan', 'flat', 'street', 'landmark', 'area', 'city_id', 'state_id', 'statecode', 'country_id', 'created_at'], 'required'],
+            [['is_deleted','city_id', 'state_id', 'statecode', 'country_id'], 'integer'],
             [['created_at'], 'safe'],
-            [['name', 'email', 'account_number', 'bank_ifsc', 'gstin', 'pan', 'flat', 'street', 'landmark', 'area', 'city', 'state', 'statecode', 'country'], 'string', 'max' => 255],
+            [['name', 'email', 'account_number', 'bank_ifsc', 'gstin', 'pan', 'flat', 'street', 'landmark', 'area',], 'string', 'max' => 255],
+            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => States::className(), 'targetAttribute' => ['state_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Countries::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
 
@@ -65,12 +68,33 @@ class Clients extends \yii\db\ActiveRecord
             'street' => 'Street',
             'landmark' => 'Landmark',
             'area' => 'Area',
-            'city' => 'City',
-            'state' => 'State',
+            'city_id' => 'City',
+            'state_id' => 'State',
             'statecode' => 'Statecode',
-            'country' => 'Country',
-            'is_deleted' => 'Is Deleted',
-            'created_at' => 'Created At',
+            'country_id' => 'Country',
+            // 'is_deleted' => 'Is Deleted',
+            // 'created_at' => 'Created At',
         ];
+    }
+
+    public function getState()
+    {
+        return $this->hasOne(States::className(), ['id' => 'state_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountry()
+    {
+        return $this->hasOne(Countries::className(), ['id' => 'country_id']);
     }
 }

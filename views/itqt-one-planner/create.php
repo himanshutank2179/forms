@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ItqtOnePlanner */
 
-$this->title = 'Create Itqt One Planner';
+$this->title = 'Create Inspection & Testing Quality Plan One Planner';
 $this->params['breadcrumbs'][] = ['label' => 'Itqt One Planners', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

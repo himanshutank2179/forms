@@ -199,4 +199,13 @@ class ProductMasterController extends Controller
             'i' => $i,
         ]);
     }
+
+    public function actionPrint($id)
+    {
+        $model = ProductMaster::findOne($id);
+        $content = $this->renderPartial('_print_product', ['product' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

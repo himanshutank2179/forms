@@ -166,4 +166,12 @@ class DocumentsAndDistributionMasterController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrint($id){
+        $model = DocumentsAndDistributionMaster::findOne($id);
+        $content = $this->renderPartial('_print', ['document' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

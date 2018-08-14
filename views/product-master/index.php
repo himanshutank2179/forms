@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'created_at',
 
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{delete}',
+                'template' => '{update}{delete}{print}',
                 'buttons' => [
                     'update' => function ($url, $model) {
                         if (Yii::$app->getRequest()->getQueryParam('type') == 'purchase'):
@@ -66,7 +66,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $newUrl, [
                             'title' => Yii::t('app', 'Delete'),'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                         ]);
-                    }
+                    },
+                    'print' => function ($url, $model) {
+                            return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print', 'id' => $model->product_master_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                        },
+
 
                 ],
             ],

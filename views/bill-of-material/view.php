@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\BillOfMaterial */
 
-$this->title = $model->bill_of_material_id;
+$this->title = 'Bill Of Material';
 $this->params['breadcrumbs'][] = ['label' => 'Bill Of Materials', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bill-of-material-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->bill_of_material_id], ['class' => 'btn btn-primary']) ?>
@@ -23,20 +23,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'prod_code' => $model->product_code], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'bill_of_material_id',
+            // 'bill_of_material_id',
             'raw_materia_id',
             'qty',
             'unit_id',
             'product_code',
-            'document_id',
+            // 'document_id',
+            [
+                'attribute' => 'document_id',
+                'value' => function ($data) {
+                return $data->document->name_of_document;
+                },
+                'filter' => false
+            ],
             'procuring_by',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

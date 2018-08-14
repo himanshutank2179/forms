@@ -8,13 +8,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\WorkOrder */
 
-$this->title = $model->work_order_id;
+$this->title = 'Work Order';
 $this->params['breadcrumbs'][] = ['label' => 'Work Orders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="work-order-view">
 
-
+    <h3>Work Order</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->work_order_id], ['class' => 'btn btn-primary']) ?>
@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print-work-order', 'id' => $model->work_order_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
