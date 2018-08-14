@@ -18,6 +18,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
+        'gridview' => ['class' => 'kartik\grid\Module'],
         'admin' => [
             'class' => 'mdm\admin\Module',
             //'layout' => 'left-menu',
@@ -88,6 +89,7 @@ $config = [
 
             ],
         ],
+        // 'gridview' => ['class' => 'kartik\grid\Module'],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
