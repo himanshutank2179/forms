@@ -206,4 +206,12 @@ class PurchaseReceiptController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return PurchaseOrder::find()->where(['po_no' => $pono])->all();
     }
+
+    public function actionPrint($id){
+        $model = PurchaseReceipt::findOne($id);
+        $content = $this->renderPartial('_print', ['receipt' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->vendor_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
@@ -74,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'flat',
             //'is_deleted',
             'website',
-            'created_at',
+            // 'created_at',
         ],
     ]) ?>
 

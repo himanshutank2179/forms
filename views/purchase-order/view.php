@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\PurchaseOrder */
 
-$this->title = $model->purchase_order_id;
+$this->title = 'Purchase Order';
 $this->params['breadcrumbs'][] = ['label' => 'Purchase Orders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-order-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->purchase_order_id], ['class' => 'btn btn-primary']) ?>
@@ -23,14 +23,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->purchase_order_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
+
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'purchase_order_id',
-            'product_id',
-            'vendor_id',
+            // 'purchase_order_id',
+            // 'product_id',
+            // 'vendor_id',
+            [
+                'attribute' => 'product_id',
+                'value' => function ($data) {
+                return $data->product->product_name;
+                },
+                'filter' => false
+            ],
+            [
+                'attribute' => 'vendor_id',
+                'value' => function ($data) {
+                return $data->vendor->name;
+                },
+                'filter' => false
+            ],
             'po_no',
             'qty',
             'unit_price',

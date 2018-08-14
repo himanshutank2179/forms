@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="process-master-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->process_master_id], ['class' => 'btn btn-primary']) ?>
@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'process_master_id',
+            // 'process_master_id',
             'name',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

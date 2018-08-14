@@ -124,4 +124,12 @@ class DndPlanDsnController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrint($id){
+        $model = DndPlanDsn::findOne($id);
+        $content = $this->renderPartial('_print', ['dnd' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="employee-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->user_id], ['class' => 'btn btn-primary']) ?>
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->user_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'user_id',
+            // 'user_id',
             'emp_code',
             'name',
             'education_qualification:ntext',
@@ -38,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'responsibility_id',
             'authority',
             'signature_of_staff',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

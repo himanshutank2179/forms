@@ -175,4 +175,13 @@ class VendorsController extends Controller
             'i' => $i,
         ]);
     }
+
+    public function actionPrint($id)
+    {
+        $model = Vendors::findOne($id);
+        $content = $this->renderPartial('_printt', ['vendor' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

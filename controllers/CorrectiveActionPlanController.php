@@ -124,11 +124,9 @@ class CorrectiveActionPlanController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionPrint($id)
-    {
-        $model = $this->findModel($id);
-        $content = $this->renderPartial('_print', ['model' => $model]);
+    public function actionPrint($id){
+        $model = CorrectiveActionPlan::findOne($id);
+        $content = $this->renderPartial('_print', ['action' => $model]);
         $pdf = Yii::$app->pdf;
         $pdf->content = $content;
         return $pdf->render();

@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\TrainingMaster */
 
-$this->title = $model->training_master_id;
+$this->title = $model->name_of_training;
 $this->params['breadcrumbs'][] = ['label' => 'Training Masters', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="training-master-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->training_master_id], ['class' => 'btn btn-primary']) ?>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'training_master_id',
+            // 'training_master_id',
             'name_of_training',
             'period',
         ],

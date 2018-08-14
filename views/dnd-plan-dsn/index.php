@@ -37,7 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
             //'actual_dt_of_completion',
             //'remarks:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print', 'id' => $model->dnd_plan_dsn_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                    },
+                ],
+            ]
         ],
     ]); ?>
     <?php Pjax::end(); ?>

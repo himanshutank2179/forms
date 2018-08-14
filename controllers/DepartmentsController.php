@@ -124,4 +124,12 @@ class DepartmentsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrint($id){
+        $model = Departments::findOne($id);
+        $content = $this->renderPartial('_print', ['depart' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

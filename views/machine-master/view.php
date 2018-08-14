@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="machine-master-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->machine_master_id], ['class' => 'btn btn-primary']) ?>
@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->machine_master_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
@@ -38,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'purchase_cost',
             'location',
             'remark:ntext',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

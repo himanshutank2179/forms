@@ -159,4 +159,13 @@ class CompanyController extends Controller
         }
 
     }
+
+    public function actionPrint($id){
+        $model = Company::findOne($id);
+        $content = $this->renderPartial('_print', ['company' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
+
 }

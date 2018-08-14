@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\TrainingPlanner;
 use Yii;
 use app\models\TrainingMaster;
 use app\models\TrainingMasterSearch;
@@ -123,5 +124,13 @@ class TrainingMasterController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionPrint($id){
+        $model = TrainingMaster::findOne($id);
+        $content = $this->renderPartial('_print', ['training' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
     }
 }

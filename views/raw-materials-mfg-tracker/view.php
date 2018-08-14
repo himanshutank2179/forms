@@ -29,7 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'raw_materials_mfg_tracker_id',
-            'product_id',
+            [
+                'attribute' => 'product_id',
+
+                'value' => function ($data) {
+                    return $data->product->product_name;
+                },
+
+            ],
             'starting_inventory',
             're_order_point',
             'purchases',

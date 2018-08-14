@@ -40,18 +40,18 @@ use app\models\ClientMobile;
 
 
 
-    <?= $form->field($model, 'country')->dropDownList(AppHelper::getCountries(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/state-list?id=').'"+$(this).val(), function( data ) {
-                    $( "#clients-state" ).html( data );
+    <?= $form->field($model, 'country_id')->dropDownList(AppHelper::getCountries(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/state-list?id=').'"+$(this).val(), function( data ) {
+                    $( "#clients-state_id" ).html( data );
                 });
             ']) ?>
 
 
-    <?= $form->field($model, 'state')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
-                    $( "#clients-city" ).html( data );
+    <?= $form->field($model, 'state_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
+                    $( "#clients-city_id" ).html( data );
                 });
             ']) ?>
 
-    <?= $form->field($model, 'city')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+    <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
     <?= $form->field($model, 'statecode')->textInput(['maxlength' => true]) ?>
 

@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Responsibility */
 
-$this->title = $model->responsibility_id;
+$this->title = $model->responsibility;
 $this->params['breadcrumbs'][] = ['label' => 'Responsibilities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="responsibility-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->responsibility_id], ['class' => 'btn btn-primary']) ?>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'responsibility_id',
+            // 'responsibility_id',
             'responsibility',
         ],
     ]) ?>

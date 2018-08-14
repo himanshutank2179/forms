@@ -188,4 +188,14 @@ class ClientsController extends Controller
             'i' => $i,
         ]);
     }
+
+
+    public function actionPrint($id)
+    {
+        $model = Clients::findOne($id);
+        $content = $this->renderPartial('_print_client', ['clients' => $model]);
+        $pdf = Yii::$app->pdf;
+        $pdf->content = $content;
+        return $pdf->render();
+    }
 }

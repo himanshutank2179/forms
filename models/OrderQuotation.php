@@ -21,8 +21,6 @@ use Yii;
  * @property int $client_id
  * @property int $is_deleted
  * @property string $created_at
- * @property string $type
- * @property string $inquiry_number
  *
  * @property Users $inspectionBy
  * @property Users $approvedBy
@@ -44,9 +42,8 @@ class OrderQuotation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at', 'state_id', 'city_id', 'inasurance', 'client_id', 'is_deleted', 'type', 'created_at', 'inquiry_number'], 'safe'],
-            [['inquiry_date', 'delivery_period', 'our_quote_ref_num',  'created_at', 'state_id', 'city_id'], 'required'],
-            [['inquiry_date', 'created_at', 'client_id', 'type','client_address','client_mobile','inquiry_remark','mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by'], 'safe'],
+            [['inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at','state_id','city_id'], 'required'],
+            [['inquiry_date', 'created_at','client_id'], 'safe'],
             [['inspection_by', 'approved_by', 'is_deleted'], 'integer'],
             [['delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance'], 'string', 'max' => 255],
             [['inspection_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['inspection_by' => 'user_id']],
@@ -66,7 +63,7 @@ class OrderQuotation extends \yii\db\ActiveRecord
             'our_quote_ref_num' => 'Our Quote Ref Num',
             'mod_of_dispatch' => 'Mod Of Dispatch',
             'payment_terms' => 'Payment Terms',
-            'inasurance' => 'Insurance',
+            'inasurance' => 'Inasurance',
             'inspection_by' => 'Inspection By',
             'approved_by' => 'Approved By',
             'is_deleted' => 'Is Deleted',

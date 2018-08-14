@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\PurchaseReceipt */
 
-$this->title = $model->purchase_receipt_id;
+$this->title = 'Raw Material Receipt';
 $this->params['breadcrumbs'][] = ['label' => 'Raw Material Receipts', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-receipt-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->purchase_receipt_id], ['class' => 'btn btn-primary']) ?>
@@ -23,14 +23,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->purchase_receipt_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'purchase_receipt_id',
+            // 'purchase_receipt_id',
             'GRN_NO',
-            'product_id',
+            // 'product_id',
+            [
+                'attribute' => 'product_id',
+                'value' => function ($data) {
+                return $data->product->product_name;
+                },
+                'filter' => false
+            ],
             'unit',
             'receive_qty',
             'rejected_qty',

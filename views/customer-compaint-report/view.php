@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\CustomerCompaintReport */
 
-$this->title = $model->customer_compaint_report_id;
+$this->title = 'Customer Compaint Reports';
 $this->params['breadcrumbs'][] = ['label' => 'Customer Compaint Reports', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-compaint-report-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->customer_compaint_report_id], ['class' => 'btn btn-primary']) ?>
@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print-complaint', 'id' => $model->customer_compaint_report_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
@@ -34,8 +35,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_of_receipt_of_compliant',
             'received_by',
             'made_of_receipt',
-            'customer_id',
-            'product_id',
+            // 'customer_id',
+            // 'product_id',
+            [
+                'attribute' => 'customer_id',
+                'value' => function ($model) {
+                    return $model->client->name;
+                }
+            ],
+            [
+                'attribute' => 'product_id',
+                'value' => function ($model) {
+                    return $model->product->product_name;
+                }
+            ],
             'incomming_qc_no',
             'date_of_dispatch',
             'invoice_no',

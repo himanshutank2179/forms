@@ -52,7 +52,15 @@ $this->params['breadcrumbs'][] = $this->title;
             //'created_at',
             //'is_deleted',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {print}',
+                'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print', 'id' => $model->customer_requirement_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                    },
+                ],
+            ]
         ],
     ]); ?>
     <?php Pjax::end(); ?>

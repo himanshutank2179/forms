@@ -7,13 +7,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\OrderAmendment */
 
-$this->title = $model->order_amendment_id;
+$this->title = 'Order Amendment';
 $this->params['breadcrumbs'][] = ['label' => 'Order Amendments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-amendment-view">
 
-
+    <h3>Order Amendment</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->order_amendment_id], ['class' => 'btn btn-primary']) ?>
@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->order_amendment_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'insurance',
             'inspected_by',
             'approved_by',
-            'is_deleted',
+            // 'is_deleted',
             'created_at',
         ],
     ]) ?>

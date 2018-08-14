@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\OrderConformation */
 
-$this->title = $model->order_conformation_id;
+$this->title = 'Order Conformation';
 $this->params['breadcrumbs'][] = ['label' => 'Order Conformations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-conformation-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3>Order Conformation</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->order_conformation_id], ['class' => 'btn btn-primary']) ?>
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->order_conformation_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'order_conformation_id',
+            // 'order_conformation_id',
             'order_number',
             'inquiry_date',
             'delivery_period',
@@ -37,8 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'payment_terms',
             'inasurance',
             'inspection_by',
-            'approved_by',
-            'is_deleted',
+            // 'approved_by',
+            [
+                'attribute' => 'approved_by',
+                'value' => function ($model) {
+                    return $model->approvedBy->name;
+                }
+            ],
+            // 'is_deleted',
             'created_at',
         ],
     ]) ?>
