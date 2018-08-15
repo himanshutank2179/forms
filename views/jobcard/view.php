@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Jobcard */
 
-$this->title = $model->jobcard_id;
+$this->title = 'Jobcard';
 $this->params['breadcrumbs'][] = ['label' => 'Jobcards', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="jobcard-view">
 
-
+    <h3><?= $this->title; ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->jobcard_id], ['class' => 'btn btn-primary']) ?>
@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print-jobcard', 'id' => $model->jobcard_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
@@ -37,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'qty',
             'class',
             'remark:ntext',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

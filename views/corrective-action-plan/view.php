@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\CorrectiveActionPlan */
 
-$this->title = $model->corrective_action_plan_id;
+$this->title = 'Corrective Action Plan';
 $this->params['breadcrumbs'][] = ['label' => 'Corrective Action Plans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="corrective-action-plan-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->corrective_action_plan_id], ['class' => 'btn btn-primary']) ?>
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->corrective_action_plan_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'corrective_action_plan_id',
+            // 'corrective_action_plan_id',
             'date',
             [
                 'attribute' => 'department_id',

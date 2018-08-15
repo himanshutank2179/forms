@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\PurchaseInventory */
 
-$this->title = $model->inventory_id;
+$this->title = 'Raw Materials Inventory';
 $this->params['breadcrumbs'][] = ['label' => 'Raw Materials Inventory', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,18 +23,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->inventory_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'inventory_id',
-            'product_id',
+            // 'inventory_id',
+            // 'product_id',
+            [
+                'attribute' => 'product_id',
+                'value' => function ($data) {
+                return $data->product->product_name;
+                },
+                'filter' => false
+            ],
             'initial_qty',
             'current_qty',
             'unit_price',
             'note:ntext',
-            'created_at',
+            // 'created_at',
         ],
     ]) ?>
 
