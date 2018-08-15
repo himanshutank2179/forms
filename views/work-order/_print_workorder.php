@@ -1,5 +1,7 @@
 <?php
-use app\models\WorkOrderProducts
+use app\models\WorkOrderProducts;
+
+//debugPrint($workorder->client->name);
 ?>
 <table width="100%"  style="border-collapse: collapse; border: 1px solid black; text-align: left;">
 	<tr>
@@ -21,7 +23,7 @@ use app\models\WorkOrderProducts
 		<td colspan="5" style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
 			<p>Name Of Customer & Address: Finish goods Store</p>
 			<p><?= getExactField($workorder->client->name) ?></p>
-			<p><?= getExactField($workorder->client->flat)." &nbsp; ".getExactField($workorder->client->street)." &nbsp; ".getExactField($workorder->client->landmark)." &nbsp; ".getExactField($workorder->client->area)." &nbsp; ".getExactField($workorder->client->city)." &nbsp; ".getExactField($workorder->client->state)." &nbsp; ".getExactField($workorder->client->country) ?></p>
+			<p><?= getExactField($workorder->client->flat)." &nbsp; ".getExactField($workorder->client->street).", &nbsp; ".getExactField($workorder->client->landmark).", &nbsp; ".getExactField($workorder->client->area).", &nbsp; ".getExactField($workorder->client->city->name).", &nbsp; ".getExactField($workorder->client->state->name).", &nbsp; ".getExactField($workorder->client->country->name) ?></p>
 		</td>
 		<td colspan="4" style=" border: 1px solid black; padding: 0px 0px 0px 5px;margin: 0px 0px 0px 0px;">
 			<p>Production Monitoring</p>
