@@ -89,6 +89,7 @@ $config = [
 
             ],
         ],
+        // 'gridview' => ['class' => 'kartik\grid\Module'],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -41,7 +41,7 @@ class CustomerRequirementsSearch extends CustomerRequirements
      */
     public function search($params)
     {
-        $query = CustomerRequirements::find();
+        $query = CustomerRequirements::find()->orderBy(['created_at' => SORT_DESC]);
 
         // add conditions that should always apply here
 

@@ -37,8 +37,8 @@
                         'icon' => '  fa-mail-forward (alias)',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Customer Requirements', 'icon' => '', 'url' => ['/customer-requirements']],
-                            ['label' => 'Order Quotations', 'icon' => '', 'url' => ['/order-quotation']],
+                            ['label' => 'Customer Requirements', 'icon' => '', 'url' => ['/order-quotation?type=requirements']],
+                            ['label' => 'Order Quotations', 'icon' => '', 'url' => ['/order-quotation?type=quotations']],
                             ['label' => 'Order Conformation', 'icon' => '', 'url' => ['/order-conformation']],
                             /*['label' => 'Customer Complaint Records', 'icon' => '', 'url' => ['/customer-complaint-record/index']],*/
                             ['label' => 'Customer Complaint Reports', 'icon' => '', 'url' => ['/customer-compaint-report/index']],
