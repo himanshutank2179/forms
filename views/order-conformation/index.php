@@ -77,6 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
             },
             'format' => 'raw'
         ],
+        'status'
+
 
 
     ];
@@ -107,6 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'inquiry_date',
             'delivery_period',
             'our_quote_ref_num',
+            'status',
             //'mod_of_dispatch',
             //'payment_terms',
             //'inasurance',

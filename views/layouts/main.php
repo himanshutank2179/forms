@@ -6,7 +6,8 @@ use yii\helpers\Url;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-/*print_r(Yii::$app->session->get('company')); exit();*/
+//debugPrint(Yii::$app->session->get('company'));
+
 
 
 if (Yii::$app->controller->action->id === 'login') {

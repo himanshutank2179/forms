@@ -68,7 +68,7 @@ class OrderQuotation extends \yii\db\ActiveRecord
             'mod_of_dispatch' => 'Mod Of Dispatch',
             'payment_terms' => 'Payment Terms',
             'inasurance' => 'Insurance',
-            'inspection_by' => 'Inspection By',
+            'inspection_by' => 'Checked By',
             'approved_by' => 'Approved By',
             'is_deleted' => 'Is Deleted',
             'created_at' => 'Created At',

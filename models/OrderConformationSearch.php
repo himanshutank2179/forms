@@ -19,7 +19,7 @@ class OrderConformationSearch extends OrderConformation
     {
         return [
             [['order_conformation_id', 'approved_by', 'is_deleted'], 'integer'],
-            [['order_number', 'inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance', 'created_at','inspection_by'], 'safe'],
+            [['order_number', 'inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance', 'created_at','inspection_by','status'], 'safe'],
         ];
     }
 
@@ -72,6 +72,7 @@ class OrderConformationSearch extends OrderConformation
             ->andFilterWhere(['like', 'our_quote_ref_num', $this->our_quote_ref_num])
             ->andFilterWhere(['like', 'mod_of_dispatch', $this->mod_of_dispatch])
             ->andFilterWhere(['like', 'payment_terms', $this->payment_terms])
+            ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'inasurance', $this->inasurance]);
 
         return $dataProvider;

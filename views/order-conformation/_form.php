@@ -25,6 +25,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
 
+
             <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select','onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('order-quotation/city-list?id=').'"+$(this).val(), function( data ) {
                     $( "#orderconformation-city_id" ).html( data );
                 });
@@ -45,6 +46,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'approved_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
 
             <?= $form->field($model, 'city_id')->dropDownList([], ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+
+            <?= $form->field($model, 'your_po_number')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 
