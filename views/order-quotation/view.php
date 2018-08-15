@@ -7,9 +7,16 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\OrderQuotation */
 
-$this->title = $model->order_quotation_id;
-$this->params['breadcrumbs'][] = ['label' => 'Order Quotations', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$type = Yii::$app->getRequest()->getQueryParam('type');
+if($type == 'requirements'){
+    $this->title = 'Create Customer Requirements';
+    $this->params['breadcrumbs'][] = ['label' => 'Customer Requirements', 'url' => ['index?type=requirements']];
+    $this->params['breadcrumbs'][] = $this->title;
+} else {
+    $this->title = 'Create Order Quotation';
+    $this->params['breadcrumbs'][] = ['label' => 'Order Quotations', 'url' => ['index?type=quotations']];
+    $this->params['breadcrumbs'][] = $this->title;
+}
 ?>
 <div class="order-quotation-view">
 
@@ -35,12 +42,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'our_quote_ref_num',
             'mod_of_dispatch',
             'payment_terms',
-            'inasurance',
-            'inspection_by',
-            'approved_by',
+            [
+                'attribute' => 'lead_by',
+                'value' => function ($model) {
 
-            'is_deleted',
-            'created_at',
+                    return !empty($model->leadBy->name) ? $model->leadBy->name : '';
+                }
+            ],
+            'inasurance',
+            [
+                'attribute' => 'inspection_by',
+                'value' => function ($model) {
+                    return !empty($model->inspectionBy->name) ? $model->inspectionBy->name : '';
+                }
+            ],
+            [
+                'attribute' => 'approved_by',
+                'value' => function ($model) {
+                    return !empty($model->approvedBy->name) ? $model->approvedBy->name : '';
+                }
+            ],
+//            'inspection_by',
+//            'approved_by',
+            /* 'is_deleted',
+             'created_at',*/
         ],
     ]) ?>
 

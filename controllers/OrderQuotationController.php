@@ -75,10 +75,18 @@ class OrderQuotationController extends Controller
             $data = Yii::$app->request->bodyParams;
             $model->created_at = date('Y-m-d H:i:s');
             $model->type = $type;
-            if ($type = 'requirements') {
+            if ($type == 'requirements') {
                 $model->inquiry_number = AppHelper::getRandomOrderNo();
             } else {
-                $model->our_quote_ref_num = AppHelper::getRandomOrderNo();
+                $qref = AppHelper::getRandomOrderNo();
+                $model->our_quote_ref_num = $qref;
+
+                // Getting requirement for update our_quote_ref_num
+
+                $requirement = OrderQuotation::find()->where(['order_quotation_id' => $model->inquiry_number, 'type' => 'requirements'])->one();
+                $requirement->our_quote_ref_num = $qref;
+                $requirement->save(false);
+                $model->inquiry_number = $requirement->inquiry_number;
             }
             $isModelSaved = ($type == 'requirements') ? $model->save(false) : $model->save();
             if ($isModelSaved) {
@@ -120,6 +128,13 @@ class OrderQuotationController extends Controller
                 $newQoute->inquiry_number = $model->inquiry_number;
                 $newQoute->type = 'quotations';
                 $newQoute->our_quote_ref_num = AppHelper::getRandomOrderNo();
+                if ($type != 'requirements') {
+                    $model->our_quote_ref_num = AppHelper::getRandomOrderNo();
+                    // Getting requirement for update our_quote_ref_num
+                    $requirement = OrderQuotation::find()->where(['inquiry_number' => $model->inquiry_number, 'type' => 'requirements'])->one();
+                    $requirement->our_quote_ref_num = $model->our_quote_ref_num;
+                    $requirement->save(false);
+                }
                 $isModelSaved = $newQoute->save(false);
             }
             if ($isModelSaved) {

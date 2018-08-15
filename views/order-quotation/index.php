@@ -88,6 +88,7 @@ if ($type == 'requirements') {
             'delivery_period',
             'our_quote_ref_num',
             'mod_of_dispatch',
+
             //'payment_terms',
             //'inasurance',
             //'inspection_by',

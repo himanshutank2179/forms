@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-md-6">
+
+
             <?= $form->field($model, 'date')->textInput(['class' => 'datepicker form-control']) ?>
 
             <?= $form->field($model, 'client_id')->dropDownList(AppHelper::getClients(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
