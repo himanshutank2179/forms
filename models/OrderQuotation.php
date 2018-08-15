@@ -23,6 +23,7 @@ use Yii;
  * @property string $created_at
  * @property string $type
  * @property string $inquiry_number
+ * @property string $lead_by
  *
  * @property Users $inspectionBy
  * @property Users $approvedBy
@@ -47,7 +48,7 @@ class OrderQuotation extends \yii\db\ActiveRecord
             [['inquiry_date', 'delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by', 'created_at', 'state_id', 'city_id', 'inasurance', 'client_id', 'is_deleted', 'type', 'created_at', 'inquiry_number'], 'safe'],
             [['inquiry_date', 'delivery_period', 'our_quote_ref_num',  'created_at', 'state_id', 'city_id'], 'required'],
             [['inquiry_date', 'created_at', 'client_id', 'type','client_address','client_mobile','inquiry_remark','mod_of_dispatch', 'payment_terms', 'inspection_by', 'approved_by'], 'safe'],
-            [['inspection_by', 'approved_by', 'is_deleted'], 'integer'],
+            [['inspection_by', 'approved_by', 'is_deleted','lead_by'], 'integer'],
             [['delivery_period', 'our_quote_ref_num', 'mod_of_dispatch', 'payment_terms', 'inasurance'], 'string', 'max' => 255],
             [['inspection_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['inspection_by' => 'user_id']],
             [['approved_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['approved_by' => 'user_id']],
@@ -91,6 +92,11 @@ class OrderQuotation extends \yii\db\ActiveRecord
     public function getApprovedBy()
     {
         return $this->hasOne(Users::className(), ['user_id' => 'approved_by']);
+    }
+
+    public function getLeadBy()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'lead_by']);
     }
 
     public function getClient()

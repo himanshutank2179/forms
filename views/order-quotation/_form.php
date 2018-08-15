@@ -31,6 +31,9 @@ $type = Yii::$app->getRequest()->getQueryParam('type');
 
         <div class="row">
             <div class="col-md-7 col-lg-offset-3">
+
+                <?= $form->field($model, 'lead_by')->dropDownList(AppHelper::getEmployee(), ['class' => 'form-control select4', 'prompt' => 'Please Select']) ?>
+
                 <?= $form->field($model, 'inquiry_date')->textInput(['class' => 'datepicker form-control']) ?>
 
                 <?= $form->field($model, 'state_id')->dropDownList(AppHelper::getStates(), ['class' => 'form-control select4', 'prompt' => 'Please Select', 'onchange' => '$.post( "' . Yii::$app->urlManager->createUrl('order-quotation/city-list?id=') . '"+$(this).val(), function( data ) {
@@ -47,7 +50,7 @@ $type = Yii::$app->getRequest()->getQueryParam('type');
                 <?= $form->field($model, 'client_address')->textarea() ?>
 
 
-                <div class="quotations animate">
+                <div class="<?= $type == 'requirements' ? 'quotations' : ''; ?> animate">
                     <?= $form->field($model, 'mod_of_dispatch')->textInput(['maxlength' => true]) ?>
 
                     <?= $form->field($model, 'payment_terms')->textInput(['maxlength' => true]) ?>
@@ -56,8 +59,10 @@ $type = Yii::$app->getRequest()->getQueryParam('type');
                 </div>
 
 
-                <label for="">Want to Make Quote also?</label> <br>
-                <?= Html::checkbox('isQuoteIncluded', '', ['id' => 'isQuoteIncluded']); ?> <label for="">YES</label>
+                <div class="<?= $type != 'requirements' ? 'quotations' : ''; ?>">
+                    <label for="">Want to Make Quote also?</label> <br>
+                    <?= Html::checkbox('isQuoteIncluded', '', ['id' => 'isQuoteIncluded']); ?> <label for="">YES</label>
+                </div>
 
 
                 <?php if ($type != 'requirements'): ?>
@@ -91,8 +96,6 @@ $type = Yii::$app->getRequest()->getQueryParam('type');
                                 <label for="quotation-products-product_id-<?= $i ?>"> Product </label>
                                 <?= Html::activeDropDownList($newProduct, 'product_id[]', AppHelper::getProducts(), ['value' => $product->product_id, 'class' => 'form-control select4', 'required' => true, 'prompt' => 'Please Select', 'id' => 'quotation-products-product_id-' . $i,]) ?>
                             </div>
-
-
 
 
                             <div class="col-md-4">
@@ -237,7 +240,7 @@ $type = Yii::$app->getRequest()->getQueryParam('type');
 <?php
 $this->registerJs("$('.select4').select2({placeholder: 'Please Select',});", \yii\web\View::POS_END);
 ?>
-<?php if ($model->isNewRecord): ?>
+<?php if ($model->isNewRecord && $type != 'quotations'): ?>
     <?php $this->registerJs("ajaxform.addFloatForm('" . Url::to(['order-quotation/get-float-form'], true) . "','ajax-document'); ", \yii\web\View::POS_END); ?>
 <?php endif; ?>
 
@@ -276,6 +279,9 @@ $this->registerJs("
                 setTimeout(function () {  $('#orderquotation-city_id').val(res[0].city_id); },1000);
                 $('#orderquotation-inspection_by').val(res[0].inspection_by).trigger('change');
                 $('#orderquotation-approved_by').val(res[0].approved_by).trigger('change');
+                $('#orderquotation-lead_by').val(res[0].lead_by).trigger('change');
+                
+                console.log('size ',res.length);
                  
                  
                  for (let [index, product] of Object.entries(res[1])) {
