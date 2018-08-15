@@ -1,6 +1,7 @@
 <?php
 
 use app\helpers\AppHelper;
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -21,6 +22,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Parameters', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        'name',
+        'value',
+        'tolerance',
+        [
+            'attribute' => 'product_id',
+            'value' => function ($data) {
+                return !empty($data->product->product_name) ? $data->product->product_name : 'No Product Selected';
+            },
+
+        ],
+        [
+            'attribute' => 'unit',
+            'value' => function ($model) {
+                return $model->unitDetails->name;
+            },
+
+        ],
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

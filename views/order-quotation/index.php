@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderQuotationSearch */
@@ -26,6 +27,54 @@ if ($type == 'requirements') {
     <p>
         <?= Html::a('Create', ['create?type=' . $type], ['class' => 'btn btn-success']) ?>
     </p>
+
+
+    <?php
+    $gridColumns = [
+        /*'order_quotation_id',*/
+        'inquiry_date',
+        'inquiry_number',
+        'delivery_period',
+        'our_quote_ref_num',
+        'mod_of_dispatch',
+        //'payment_terms',
+        //'inasurance',
+        //'inspection_by',
+        //'approved_by',
+        //'is_deleted',
+        //'created_at',
+
+        // ['class' => 'yii\grid\ActionColumn'],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{view} {update} {delete} {print}',
+            'buttons' => [
+                'update' => function ($url, $model) {
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', \yii\helpers\Url::to(['update', 'id' => $model->order_quotation_id, 'type' => Yii::$app->getRequest()->getQueryParam('type')]), []);
+                },
+                'print' => function ($url, $model) {
+                    return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print-orderquotation', 'id' => $model->order_quotation_id]), ['target' => '_blank', 'data-pjax' => "0"]);
+                },
+            ],
+        ]
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -52,7 +101,7 @@ if ($type == 'requirements') {
                 'template' => '{view} {update} {delete} {print}',
                 'buttons' => [
                     'update' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', \yii\helpers\Url::to(['update', 'id' => $model->order_quotation_id,'type'=> Yii::$app->getRequest()->getQueryParam('type')]), []);
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', \yii\helpers\Url::to(['update', 'id' => $model->order_quotation_id, 'type' => Yii::$app->getRequest()->getQueryParam('type')]), []);
                     },
                     'print' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-print"></span>', \yii\helpers\Url::to(['print-orderquotation', 'id' => $model->order_quotation_id]), ['target' => '_blank', 'data-pjax' => "0"]);

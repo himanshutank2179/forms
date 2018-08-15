@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -19,6 +20,36 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Instrument Master', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        'name_of_instrument',
+        'instrument_identification_no',
+        'make_and_sr_no',
+        'capacity',
+        'least_count',
+        'acceptance_criteria',
+        'calibration_certi_no',
+        'date',
+        'next_due_on',
+        'sign_qc',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

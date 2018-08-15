@@ -1,8 +1,10 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CompanySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,6 +21,50 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Company', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        /*'company_id',*/
+
+        [
+            'attribute' => 'image',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return Html::img(Yii::getAlias('@web') . '/uploads/' . $data['image'], ['width' => '200px', 'class' => 'img-thumbnail']);
+            },
+        ],
+        'name',
+        'email:email',
+        'contact_person_no',
+        'account_number',
+        'bank_ifsc',
+        'gstin',
+        'pan',
+        'flat',
+        'street',
+        'landmark',
+        'area',
+        'city_id',
+        'state_id',
+        'country_id',
+        //'is_deleted',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

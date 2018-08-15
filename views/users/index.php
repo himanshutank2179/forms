@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -19,6 +20,43 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Users', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        [
+            'attribute' => 'profile_pic',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return Html::img(Yii::getAlias('@web') . '/uploads/' . $data['profile_pic'], ['width' => '100px', 'class' => 'img-thumbnail set-profile-' . $data->user_id]);
+            },
+            'filter' => false
+        ],
+        'emp_code',
+        'name',
+        'education_qualification:ntext',
+        'professional_education:ntext',
+        'designation',
+        'experience',
+        'responsibility_id',
+        'authority',
+        'signature_of_staff',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

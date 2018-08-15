@@ -1,6 +1,7 @@
     <?php
 
-use yii\helpers\Html;
+    use kartik\export\ExportMenu;
+    use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
@@ -19,6 +20,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Documents And Distribution Master', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        'name_of_document',
+        'document_no',
+        'issue_no',
+        'revision',
+
+        'date_of_issue',
+        'copy_holders_department',
+        'sign_of_receiver',
+//        'is_international',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

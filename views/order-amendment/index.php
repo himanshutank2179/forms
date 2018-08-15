@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -19,6 +20,44 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Order Amendment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        /*'order_amendment_id',*/
+        'purchase_order_no',
+        'date',
+        'quotation_ref_no',
+        'revised_terms:ntext',
+        'total',
+        'delivery_period',
+        'delivery_required_at',
+        'made_of_dispatch',
+        'payment_terms:ntext',
+        'insurance',
+        'inspected_by',
+        'approved_by',
+        //'is_deleted',
+
+
+
+
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

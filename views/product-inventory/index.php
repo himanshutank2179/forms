@@ -1,9 +1,11 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\helpers\AppHelper;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductInventorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,6 +22,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php Html::a('Create Product Inventory', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        [
+            'attribute' => 'product_id',
+            'value' => function ($model) {
+                return !empty($model->product->product_name) ? $model->product->product_name : '';
+            },
+
+        ],
+        'initial_qty',
+        'current_qty',
+        'unit_price',
+        'note:ntext',
+        'min_qty',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
