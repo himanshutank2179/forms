@@ -17,9 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php $filename = 'product_master'; ?>
     <p>
         <?php if (Yii::$app->getRequest()->getQueryParam('type') == 'purchase'): ?>
+            <?php $filename = 'purchase_master'; ?>
             <?= Html::a('Create Purchase Product', ['create?type=purchase'], ['class' => 'btn btn-success']) ?>
         <?php else: ?>
             <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
@@ -43,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => $gridColumns,
         'fontAwesome' => true,
-        'filename' => 'Order_Conformation_REPORT',
+        'filename' => $filename,
         'exportConfig' => [
             ExportMenu::FORMAT_TEXT => false,
             ExportMenu::FORMAT_CSV => false,

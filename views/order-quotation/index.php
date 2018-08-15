@@ -9,9 +9,11 @@ use kartik\export\ExportMenu;
 /* @var $searchModel app\models\OrderQuotationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $type = Yii::$app->getRequest()->getQueryParam('type');
+$filename = 'order_quotation';
 if ($type == 'requirements') {
     $this->title = 'Customer Requirements';
     $this->params['breadcrumbs'][] = $this->title;
+    $filename = 'customer_requiment';
 } else {
     $this->title = 'Order Quotations';
     $this->params['breadcrumbs'][] = $this->title;
@@ -65,7 +67,7 @@ if ($type == 'requirements') {
         'dataProvider' => $dataProvider,
         'columns' => $gridColumns,
         'fontAwesome' => true,
-        'filename' => 'Order_Conformation_REPORT',
+        'filename' => $filename,
         'exportConfig' => [
             ExportMenu::FORMAT_TEXT => false,
             ExportMenu::FORMAT_CSV => false,
