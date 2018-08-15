@@ -27,7 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'inspection_planer_id',
-            'product_id',
+            
+            [
+                'attribute'=>'product_id',
+            ],
             'process_id',
             'parameter_id',
             'tolerance',
