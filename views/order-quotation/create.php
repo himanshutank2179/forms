@@ -12,7 +12,7 @@ if($type == 'requirements'){
     $this->params['breadcrumbs'][] = $this->title;
 } else {
     $this->title = 'Create Order Quotation';
-    $this->params['breadcrumbs'][] = ['label' => 'Order Quotations', 'url' => ['index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Order Quotations', 'url' => ['index?type=quotations']];
     $this->params['breadcrumbs'][] = $this->title;
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -19,6 +20,41 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Vendors', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+    $gridColumns = [
+        'name',
+        [
+            'attribute' => 'photo',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return Html::img(Yii::getAlias('@web') . '/uploads/' . $data['photo'], ['width' => '200px', 'class' => 'img-thumbnail set-profile-' . $data->vendor_id]);
+            },
+            'filter' => false
+        ],
+        'email:email',
+        'phone',
+        'address:ntext',
+        'office_address:ntext',
+        'contact_person_name',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

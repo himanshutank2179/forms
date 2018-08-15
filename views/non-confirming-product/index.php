@@ -1,9 +1,11 @@
 <?php
 
 use app\helpers\AppHelper;
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\NonConfirmingProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,6 +23,69 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Non Confirming Product', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php
+    $gridColumns = [
+        'date',
+        'GRN_NO',
+        [
+            'attribute' => 'product_id',
+            'value' => function ($data) {
+                return !empty($data->product->product_name) ? $data->product->product_name : 'No Product Selected';
+            },
+        ],
+        [
+            'value' => function ($model) {
+                return !empty($model->resion) ? $model->resion : 'N/A';
+            }
+        ],
+
+        'qty',
+        [
+            'value' => function ($model) {
+                return !empty($model->balance) ? $model->balance : 'N/A';
+            }
+        ],
+        [
+            'value' => function ($model) {
+                return !empty($model->return_to_vendor_qty) ? $model->return_to_vendor_qty : 'N/A';
+            }
+        ],
+        [
+            'value' => function ($model) {
+                return !empty($model->rework_qty) ? $model->rework_qty : 'N/A';
+            },
+
+        ],
+        [
+            'value' => function ($model) {
+                return !empty($model->scrap_qty) ? $model->scrap_qty : 'N/A';
+            },
+        ],
+        'sales_on_discount_qty',
+        [
+            'value' => function ($model) {
+                return !empty($model->sales_on_discount_qty) ? $model->sales_on_discount_qty : 'N/A';
+            },
+        ],
+        'sign_of_prod',
+    ];
+    ?>
+
+    <?=
+    ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+        'filename' => 'Order_Conformation_REPORT',
+        'exportConfig' => [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_EXCEL_X => false
+        ],
+    ]);
+    ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -37,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data) {
                     return !empty($data->product->product_name) ? $data->product->product_name : 'No Product Selected';
                 },
-                'filter' => Html::activeDropDownList($searchModel, 'product_id', AppHelper::getAllProducts(), ['class' => 'form-control select','prompt' => 'Filter By Product']),
+                'filter' => Html::activeDropDownList($searchModel, 'product_id', AppHelper::getAllProducts(), ['class' => 'form-control select', 'prompt' => 'Filter By Product']),
             ],
             /*'resion:ntext',*/
             [

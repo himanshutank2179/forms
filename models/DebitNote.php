@@ -81,6 +81,11 @@ class DebitNote extends \yii\db\ActiveRecord
     {
         return $this->hasMany(DebitNoteDetails::className(), ['debit_note_id' => 'debit_note_id']);
     }
+
+    public function getParty()
+    {
+        return $this->hasOne(Clients::className(), ['client_id' => 'party_name']);
+    }
 }
 
 
