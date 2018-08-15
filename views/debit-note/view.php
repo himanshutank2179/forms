@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\DebitNote */
 
-$this->title = $model->debit_note_id;
+$this->title = 'Debit Note';
 $this->params['breadcrumbs'][] = ['label' => 'Debit Notes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="debit-note-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->debit_note_id], ['class' => 'btn btn-primary']) ?>
@@ -23,13 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->debit_note_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'debit_note_id',
-            'party_name',
+            // 'debit_note_id',
+            // 'party_name',
+            [
+                'attribute' => 'party_name',
+                'value' => function ($model) {
+                    return $model->party->name;
+                }
+            ],
             'address1:ntext',
             'address2:ntext',
             'address3:ntext',
@@ -44,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'company_gst',
             'total',
             'remark:ntext',
-            'is_deleted',
-            'created_at',
+            // 'is_deleted',
+            // 'created_at',
         ],
     ]) ?>
 

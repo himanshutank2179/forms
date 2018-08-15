@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\SuppilerEvaluation */
 
-$this->title = $model->sppiler_evaluation_id;
+$this->title = 'Suppiler Evaluation';
 $this->params['breadcrumbs'][] = ['label' => 'Suppiler Evaluations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="suppiler-evaluation-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->sppiler_evaluation_id], ['class' => 'btn btn-primary']) ?>
@@ -23,13 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->sppiler_evaluation_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'sppiler_evaluation_id',
-            'vendor_id',
+            // 'sppiler_evaluation_id',
+            // 'vendor_id',
+            [
+                'attribute' => 'vendor_id',
+                'value' => function ($data) {
+                    return $data->vendor->name;
+                },
+            ],
             'month',
             'total_po',
             'purchase_qty',
@@ -43,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'second_performance',
             'third_performance',
             'total_marks',
-            'created_at',
+            // 'created_at',
         ],
     ]) ?>
 

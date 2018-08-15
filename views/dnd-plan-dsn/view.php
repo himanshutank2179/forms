@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\DndPlanDsn */
 
-$this->title = $model->dnd_plan_dsn_id;
+$this->title = 'Dnd Plan Dsn';
 $this->params['breadcrumbs'][] = ['label' => 'Dnd Plan Dsns', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dnd-plan-dsn-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->dnd_plan_dsn_id], ['class' => 'btn btn-primary']) ?>
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->dnd_plan_dsn_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'dnd_plan_dsn_id',
+            // 'dnd_plan_dsn_id',
             'sr_no',
             'activities_to_perform',
             'responsibility',

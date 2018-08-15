@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\ItqtTwoPlanner */
 
-$this->title = $model->itqt_two_planner_id;
+$this->title = 'Itqt Two Planner';
 $this->params['breadcrumbs'][] = ['label' => 'Itqt Two Planners', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="itqt-two-planner-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->itqt_two_planner_id], ['class' => 'btn btn-primary']) ?>
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print', 'id' => $model->itqt_two_planner_id], ['class' => 'btn btn-primary', 'target' => '_blank',]); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'itqt_two_planner_id',
+            // 'itqt_two_planner_id',
             'process',
             'parameter',
             'width',
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'sampling_plan',
             'record',
             'resposi_ability',
-            'created_at',
+            // 'created_at',
         ],
     ]) ?>
 
